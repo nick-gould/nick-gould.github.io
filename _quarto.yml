@@ -1,13 +1,26 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "quarto-test"
-  navbar:
-    left:
+  # navbar:
+  #   left:
+  #     - href: index.qmd
+  #       text: Home
+  #     - about.qmd
+  #     - href: posts/MonteCarloPi.ipynb
+  #       text: Monte Carlo Pi
+
+  sidebar:
+    # style: docked
+    style: floating
+    logo: images/nova_200.png
+    contents:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: posts/MonteCarloPi.ipynb
+        text: Monte Carlo Pi
 
 format:
   html:
