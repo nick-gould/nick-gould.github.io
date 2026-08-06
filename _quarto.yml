@@ -3,29 +3,73 @@ project:
   output-dir: docs
 
 website:
-  title: "quarto-test"
-  # navbar:
-  #   left:
-  #     - href: index.qmd
-  #       text: Home
-  #     - about.qmd
-  #     - href: posts/MonteCarloPi.ipynb
-  #       text: Monte Carlo Pi
+  title: "Nick Gould"
+  draft-mode: visible
+  image: images/nova_200.png
+  reader-mode: true
+  search: true
+  back-to-top-navigation: true
+  navbar:
+    left:
+      # - href: index.qmd
+      #   text: Home
+
+      - icon: github
+        href: https://github.com/nick-gould
+        target: _blank
+
+      - icon: linkedin
+        href: https://www.linkedin.com/in/nick-gould/
+        target: _blank
+
 
   sidebar:
     # style: docked
-    style: floating
-    logo: images/nova_200.png
+    style: docked
+    # logo: images/nova_200.png
     contents:
-      - href: index.qmd
-        text: Home
-      - href: posts/MonteCarloPi.ipynb
-        text: Monte Carlo Pi
+      - text: <b>Pages</b>
+
+      - text: Home
+        href: index.qmd
+
+      - text: Design of Experiments
+        href: posts/DesignOfExperiments.ipynb
+
+      - text: Electrochemical Impedance Spectroscopy
+        href: posts/ElectrochemicalImpedanceSpectroscopy.ipynb
+
+      # - text: Thermodynamic Equations of State
+      #   href: posts/ThermodynamicEquationsOfState.ipynb
+
+      # - text: Recommender Systems
+      #   href: posts/RecommendationSystems.ipynb
+
+      # - text: Monte Carlo Simulations
+      #   href: posts/MonteCarlo.ipynb
+
+      - text: Lorenz Attractor Simulator
+        href: https://nick-gould.github.io/Lorenz-Simulator/
+        target: blank
+
+  page-footer:
+    center: |
+      <span id="copyright"></span>
+
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("copyright").innerHTML =
+          "© 2020-" + new Date().getFullYear() +
+          " Nick Gould - All Rights Reserved.";
+      });
+      </script>
+
+
 
 format:
   html:
     theme:
-      - cosmo
+      - sandstone
       - brand
     css: styles.css
     toc: true

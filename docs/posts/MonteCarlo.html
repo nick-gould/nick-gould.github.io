@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Nick Gould">
 
-<title>Nick Gould - Senior Data Scientist – Nick Gould</title>
+<title>Monte Carlo – Nick Gould</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,26 +24,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ee70a2fd9df5cf4968f0e9381ab63cde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ee70a2fd9df5cf4968f0e9381ab63cde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -82,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Nick Gould</span>
     </a>
   </div>
@@ -118,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../posts/MonteCarlo.html">Monte Carlo Simulations</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -135,20 +171,38 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/DesignOfExperiments.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Design of Experiments</span></a>
+  <a href="../posts/DesignOfExperiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Design of Experiments (TBD)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/ElectrochemicalImpedanceSpectroscopy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Electrochemical Impedance Spectroscopy</span></a>
+  <a href="../posts/RecommendationSystems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Recommender Systems (TBD)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/ElectrochemicalImpedanceSpectroscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Electrochemical Impedance Spectroscopy (TBD)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/ThermodynamicEquationsOfState.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Thermodynamic Equations of State (TBD)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/MonteCarlo.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Monte Carlo Simulations</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -167,17 +221,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-me" id="toc-about-me" class="nav-link active" data-scroll-target="#about-me">About Me</a></li>
-  <li><a href="#what-i-work-on" id="toc-what-i-work-on" class="nav-link" data-scroll-target="#what-i-work-on">What I Work On</a></li>
-  <li><a href="#how-i-work" id="toc-how-i-work" class="nav-link" data-scroll-target="#how-i-work">How I Work</a></li>
-  <li><a href="#about-this-project" id="toc-about-this-project" class="nav-link" data-scroll-target="#about-this-project">About <em>This</em> Project</a></li>
-  <li><a href="#select-projects" id="toc-select-projects" class="nav-link" data-scroll-target="#select-projects">Select Projects</a>
+  <li><a href="#attention" id="toc-attention" class="nav-link active" data-scroll-target="#attention">Attention</a></li>
+  <li><a href="#monte-carlo-simulation-for-determining-pi" id="toc-monte-carlo-simulation-for-determining-pi" class="nav-link" data-scroll-target="#monte-carlo-simulation-for-determining-pi">Monte Carlo simulation for determining pi</a>
   <ul class="collapse">
-  <li><a href="#design-of-experiments" id="toc-design-of-experiments" class="nav-link" data-scroll-target="#design-of-experiments">Design of Experiments</a></li>
-  <li><a href="#electrochemical-impedance-spectroscopy" id="toc-electrochemical-impedance-spectroscopy" class="nav-link" data-scroll-target="#electrochemical-impedance-spectroscopy">Electrochemical Impedance Spectroscopy</a></li>
-  <li><a href="#lorenz-attractor-simulator" id="toc-lorenz-attractor-simulator" class="nav-link" data-scroll-target="#lorenz-attractor-simulator">Lorenz Attractor Simulator</a></li>
+  <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link" data-scroll-target="#import-libraries">Import Libraries</a></li>
+  <li><a href="#define-functions" id="toc-define-functions" class="nav-link" data-scroll-target="#define-functions">Define functions</a></li>
   </ul></li>
-  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
   </ul>
 </nav>
     </div>
@@ -186,13 +235,24 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Nick Gould - Senior Data Scientist</h1>
-</div>
+<h1 class="title">Monte Carlo</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">experimentation</div>
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">data-science</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nick Gould </p>
+          </div>
+  </div>
     
   
     
@@ -203,82 +263,112 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="about-me" class="level2">
-<h2 class="anchored" data-anchor-id="about-me">About Me</h2>
-<p>I’m a Senior Data Scientist with over a decade of experience building analytics and machine learning systems that support real business decisions. My work has spanned retail analytics, manufacturing R&amp;D, and applied scientific computing, giving me the opportunity to solve problems ranging from customer recommendation systems to experimental design and physical modeling.</p>
-<p>I’m currently available for remote roles and am based in Phoenix, AZ. Feel free to reach out to me over <a href="https://www.linkedin.com/in/nick-gould/">LinkedIn</a>.</p>
-</section>
-<section id="what-i-work-on" class="level2">
-<h2 class="anchored" data-anchor-id="what-i-work-on">What I Work On</h2>
-<p>Much of my professional work has centered on building end-to-end data products rather than isolated models. That includes</p>
+<section id="attention" class="level3">
+<h3 class="anchored" data-anchor-id="attention">Attention</h3>
+<p>This page is correct, but incomplete. It’s live, but I would like to expand the depth of the material, visuals, and code.</p>
+<p>On the short list to include later:</p>
 <ul>
-<li>designing data pipelines</li>
-<li>developing machine learning models</li>
-<li>deploying and monitoring production systems</li>
-<li>building experimentation frameworks</li>
-<li>creating dashboards and decision-support tools</li>
+<li>Confidence intervals, especially for distributions that are not normal</li>
+<li>Markov chain monte carlo</li>
+<li>Probably other stuff</li>
 </ul>
-<p>I’ve worked extensively with Python, SQL, Databricks, Snowflake, and modern data engineering workflows, with an emphasis on reproducibility, maintainability, and long-term reliability.</p>
-<p>Beyond machine learning, I enjoy applying statistical thinking to practical problems. Designing experiments, quantifying uncertainty, and translating technical analyses into actionable recommendations have been recurring themes throughout my career.</p>
+<hr>
 </section>
-<section id="how-i-work" class="level2">
-<h2 class="anchored" data-anchor-id="how-i-work">How I Work</h2>
-<p>One lesson I’ve learned over the years is that successful data science projects rarely fail because of the model—they fail because the wrong problem was solved, the results weren’t trusted, or the solution didn’t fit into existing workflows.</p>
-<p>For that reason, I spend as much time understanding the problem as I do choosing algorithms. I prefer simple models that answer the right question over sophisticated models that solve the wrong one. I also believe that reproducibility, documentation, and clear communication are as important as predictive performance when building systems that people depend on.</p>
-<p>I enjoy working across disciplines, collaborating with engineers, researchers, product teams, and business stakeholders to build solutions that balance technical rigor with practical constraints.</p>
+<section id="monte-carlo-simulation-for-determining-pi" class="level1">
+<h1>Monte Carlo simulation for determining pi</h1>
+<p>A simple tutorial for doing a Monte Carlo simulation using Python.</p>
+<p>From geometry, we know the ratio of the area of an circle inscribed in a square to that square is pi/4. For our Monte Carlo simulation, we will generate a bunch of points in a square and determine which ones are in the circle and which ones are not. The ratio of the points inside circle to the total number of points is pi/4.</p>
+<section id="import-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="import-libraries">Import Libraries</h2>
+<div id="cell-5" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>PlotWidth <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1729</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, we’re going to set up a function in Python to: 1. Generate points within a square between -1 and 1 for both x and y 2. Determine which points are also in the circle (radius is &lt;= 1) 3. Plot the points to visualize those points 4. Plot the estimate for pi versus the iteration number, to see how quickly we converge on the true value of pi (spoiler: it’s noisy)</p>
 </section>
-<section id="about-this-project" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-project">About <em>This</em> Project</h2>
-<p>Most of the projects I’ve worked on professionally are proprietary, making it difficult to share the technical details that don’t fit on a resume. This site is my way of recreating the kinds of problems I’ve solved throughout my career while demonstrating how I think about modeling, experimentation, visualization, and software engineering.</p>
-<p>The intention is twofold:</p>
-<ul>
-<li>Bridge the gap from the resume to the conversation. A typical hiring manager looks at a resume for a single-digit number of seconds, and the commitment from looking at a resume to scheduling a call is high; going from seconds to a half-hour or hour. This site can be navigated in minutes with hopefully enough depth where you can verify the things on my resume are true and that I’m worth talking to.</li>
-<li>These subjects often come up in conversations at work, conferences, or parties (I have <em>that</em> kind of friends group). Having something to share with them will be nice.</li>
-</ul>
-<p>This project will be iterative, with mildly ambitious plans for different topics. Instead of letting the perfect be the enemy of the good it will be <del>git add . &amp;&amp; git commit -m “perfect website, no notes” &amp;&amp; git push -u origin main</del> published piecemeal.</p>
-<p>Many of the pages include interactive simulations and notebooks built with <a href="https://quarto.org/">Quarto</a>, allowing readers to explore concepts rather than simply read about them. The site itself also serves as a demonstration of reproducible technical workflows using Git, GitHub Pages, and modern Python tooling.</p>
+<section id="define-functions" class="level2">
+<h2 class="anchored" data-anchor-id="define-functions">Define functions</h2>
+<div id="cell-8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> MonteCarloPi(numDataPoints, numCirclePoints <span class="op">=</span> <span class="dv">360</span>, numDecimalPoints <span class="op">=</span> <span class="dv">4</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Draw a square and a circle to frame out simulation</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    squareX <span class="op">=</span> [<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    squareY <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    circleX <span class="op">=</span> (np.cos(np.pi<span class="op">*</span>np.arange(numCirclePoints<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">180</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    circleY <span class="op">=</span> (np.sin(np.pi<span class="op">*</span>np.arange(numCirclePoints<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">180</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate a bunch of values of x and y between -1 and 1, then assess their combined radius on an xy plane</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'x'</span>, <span class="st">'y'</span>, <span class="st">'r'</span>, <span class="st">'Location'</span>, <span class="st">'CurrentPi'</span>])</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi[<span class="st">'x'</span>] <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>(np.random.rand(numDataPoints)<span class="op">-</span><span class="fl">0.5</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi[<span class="st">'y'</span>] <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>(np.random.rand(numDataPoints)<span class="op">-</span><span class="fl">0.5</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi[<span class="st">'r'</span>] <span class="op">=</span> np.sqrt(dfMonteCarloPi[<span class="st">'x'</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dfMonteCarloPi[<span class="st">'y'</span>]<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi.loc[dfMonteCarloPi[<span class="st">'r'</span>] <span class="op">&lt;=</span> <span class="dv">1</span>, <span class="st">'Location'</span>] <span class="op">=</span> <span class="st">'Inside'</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi.loc[dfMonteCarloPi[<span class="st">'r'</span>] <span class="op">&gt;</span> <span class="dv">1</span>, <span class="st">'Location'</span>] <span class="op">=</span> <span class="st">'Outside'</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    dfMonteCarloPi[<span class="st">'CurrentPi'</span>] <span class="op">=</span> <span class="dv">4</span><span class="op">*</span>(dfMonteCarloPi[<span class="st">'Location'</span>] <span class="op">==</span> <span class="st">'Inside'</span>).cumsum()<span class="op">/</span>(dfMonteCarloPi.index<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    piValue <span class="op">=</span> np.<span class="bu">round</span>(np.array(dfMonteCarloPi[<span class="st">'CurrentPi'</span>])[<span class="op">-</span><span class="dv">1</span>], numDecimalPoints)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    piError <span class="op">=</span> np.<span class="bu">round</span>(<span class="bu">round</span>(<span class="dv">100</span><span class="op">*</span>((piValue<span class="op">-</span>np.pi)<span class="op">/</span>np.pi),<span class="dv">4</span>), numDecimalPoints)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Draw a 2D plot of where our iterations landed compared to the square and circle</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(PlotWidth,PlotWidth))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    plt.plot(squareX,squareY,color<span class="op">=</span><span class="st">'#000000'</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    plt.plot(circleX,circleY,color<span class="op">=</span><span class="st">'#0000CC'</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span><span class="st">'x'</span>, y<span class="op">=</span><span class="st">'y'</span>, data<span class="op">=</span>dfMonteCarloPi, hue<span class="op">=</span><span class="st">'Location'</span>, palette<span class="op">=</span><span class="st">'colorblind'</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">0</span>,<span class="op">-</span><span class="fl">.08</span>), loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Locations of randomly drawn points'</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">#Draw a psuedo-time series plot of current estimate of pi vs. iteration number</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(PlotWidth,PlotWidth))</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    plt.plot(dfMonteCarloPi.index<span class="op">+</span><span class="dv">1</span>,dfMonteCarloPi[<span class="st">'CurrentPi'</span>],color<span class="op">=</span><span class="st">'#009900'</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    plt.axhline(y<span class="op">=</span>np.pi,color<span class="op">=</span><span class="st">'#0F0F0F'</span>,ls<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    plt.xlim(<span class="dv">0</span>,numDataPoints<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">3</span>,<span class="fl">3.4</span>)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Iteration Number'</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Estimate for pi'</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Current estimate for pi by iteration number'</span>)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co">#print out our final estimate and how it compares to the true value</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span> <span class="op">+</span> <span class="ss">f'Pi is approximately </span><span class="sc">{</span>piValue<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'This is </span><span class="sc">{</span>piError<span class="sc">}</span><span class="ss">% off the true value.</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     return dfMonteCarloPi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MonteCarloPi(<span class="dv">10000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MonteCarlo_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MonteCarlo_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Pi is approximately 3.161
+
+This is 0.6178% off the true value.
+</code></pre>
+</div>
+</div>
+
+
 </section>
-<section id="select-projects" class="level2">
-<h2 class="anchored" data-anchor-id="select-projects">Select Projects</h2>
-<section id="design-of-experiments" class="level3">
-<h3 class="anchored" data-anchor-id="design-of-experiments"><a href="posts/DesignOfExperiments.html">Design of Experiments</a></h3>
-<p>Design of Experiments (DoE) is a collection of methods that intends to use statistics to systematically vary possible causes that affect a given output to better understand, control, and optimize the system being investigated. A well designed DoE can often turn months worth of work into a couple of days.</p>
-</section>
-<section id="electrochemical-impedance-spectroscopy" class="level3">
-<h3 class="anchored" data-anchor-id="electrochemical-impedance-spectroscopy"><a href="posts/ElectrochemicalImpedanceSpectroscopy.html">Electrochemical Impedance Spectroscopy</a></h3>
-<p>Electrochemical Impedance Spectroscopy (EIS) is a technique for probing the inner-workings of an electrical circuit, which can yield useful insights to improve battery technology. The concepts behind the technique can also be leveraged to do almost the same thing as the full analysis with a faster turnaround through careful testing design.</p>
-<!-- ### Thermodynamic Equations of State
-
-Thermodynamic Equations of State (EoS) are techniques for estimating the vapor-liquid equillibrium for a system of chemical species. Estimating the fractions of species who would be in the vapor and liquid of a system is faster than doing the experiment. Activity coefficient models are also useful when plural liquid phases exist.
-
-Writing a detailed page outlining the background and ways to design and analyze EIS is in progress, some methods are on my github.
-
-
-### Monte Carlo Simulations
-
-A lot of statistical problems don't have a closed form solution or might just be tedious to work out. Monte Carlo simulations make a lot of problems more tractable. 
-
-Writing a detailed page explaining monte carlo, various use cases, and pitfalls is in progress, some methods are on my github.
-
-
-### Recommendation Systems
-
-There are many methods for making a model to predict what item from a list a user might prefer. Separating the signal from noise can be a challenge and different methods make sense for high and low volume systems.
-
-Writing a detailed page on various recommendation systems is in progress, some methods are on my github. -->
-</section>
-<section id="lorenz-attractor-simulator" class="level3">
-<h3 class="anchored" data-anchor-id="lorenz-attractor-simulator"><a href="https://nick-gould.github.io/Lorenz-Simulator/" target="_blank">Lorenz Attractor Simulator</a></h3>
-<p>A dashboard-style Lorenz attractor simulator that runs entirely client-side; Python via <a href="https://pyodide.org/en/stable/">Pyodide</a> (WebAssembly) for the computation, <a href="https://plotly.com/python/">Plotly</a> for the 3D visualization, no server involved. Built to test whether “static site with real interactivity” is a viable pattern for shipping data tools without backend overhead. It is.</p>
-</section>
-</section>
-<section id="contact" class="level2">
-<h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/nick-gould/" target="_blank">linkedin.com/in/nick-gould</a><br>
-<strong>GitHub:</strong> <a href="https://github.com/nick-gould" target="_blank">github.com/nick-gould</a><br>
-</p>
-
-
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -693,7 +783,7 @@ Writing a detailed page on various recommendation systems is in progress, some m
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("copyright").innerHTML =
-    "© 2020-" + new Date().getFullYear() +
+    "© 2026-" + new Date().getFullYear() +
     " Nick Gould - All Rights Reserved.";
 });
 </script>

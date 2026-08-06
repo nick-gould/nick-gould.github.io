@@ -1,0 +1,11 @@
+---
+title: "404 Error"
+---
+
+The page you are looking for does not exist.
+
+It's not clear why you ended up here, but you can try going back to the [home page](index.qmd) or checking the URL for typos.
+
+(Maybe it <i>is</i> clear why you ended up here, but this is a static website)
+
+The prime factors for 404 are 2 x 2 x 101, so that's pretty cool.

@@ -1,0 +1,8 @@
+﻿Number of Factors,2n Full Factorial,3n Full Factorial,Fractional Factorial,Definitive Screening Design
+2,4,9,4,
+3,8,27,4,
+4,16,81,8,17
+5,32,243,16,17
+6,64,729,32,17
+7,128,2187,64,21
+8,256,6561,128,21
