@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nick Gould">
+<meta name="dcterms.date" content="2026-08-06">
+
+<title>Design of Experiments – Nick Gould</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ee70a2fd9df5cf4968f0e9381ab63cde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Nick Gould</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/nick-gould" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nick-gould/" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../posts/DesignOfExperiments.html">Design of Experiments</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><b>Pages</b></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/DesignOfExperiments.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Design of Experiments</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/ElectrochemicalImpedanceSpectroscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Electrochemical Impedance Spectroscopy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://nick-gould.github.io/Lorenz-Simulator/" class="sidebar-item-text sidebar-link" target="blank">
+ <span class="menu-text">Lorenz Attractor Simulator</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#design-of-experiments" id="toc-design-of-experiments" class="nav-link active" data-scroll-target="#design-of-experiments">Design of Experiments</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-doe" id="toc-what-is-a-doe" class="nav-link" data-scroll-target="#what-is-a-doe">What is a DoE?</a></li>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link" data-scroll-target="#terminology">Terminology</a></li>
+  <li><a href="#selecting-terms-and-conditions" id="toc-selecting-terms-and-conditions" class="nav-link" data-scroll-target="#selecting-terms-and-conditions">Selecting Terms and Conditions</a></li>
+  <li><a href="#types-of-does" id="toc-types-of-does" class="nav-link" data-scroll-target="#types-of-does">Types of DoEs</a></li>
+  <li><a href="#deciding-on-which-doe-to-run" id="toc-deciding-on-which-doe-to-run" class="nav-link" data-scroll-target="#deciding-on-which-doe-to-run">Deciding on which DoE to run</a></li>
+  <li><a href="#comparison-of-doe-run-counts" id="toc-comparison-of-doe-run-counts" class="nav-link" data-scroll-target="#comparison-of-doe-run-counts">Comparison of DoE run counts</a></li>
+  </ul></li>
+  <li><a href="#example-of-generating-a-doe-in-python" id="toc-example-of-generating-a-doe-in-python" class="nav-link" data-scroll-target="#example-of-generating-a-doe-in-python">Example of Generating a DoE in Python</a></li>
+  <li><a href="#example-of-a-doe-analysis" id="toc-example-of-a-doe-analysis" class="nav-link" data-scroll-target="#example-of-a-doe-analysis">Example of a DoE Analysis</a>
+  <ul class="collapse">
+  <li><a href="#importing-the-data-into-python" id="toc-importing-the-data-into-python" class="nav-link" data-scroll-target="#importing-the-data-into-python">Importing the data into Python</a></li>
+  <li><a href="#exploring-the-design-space" id="toc-exploring-the-design-space" class="nav-link" data-scroll-target="#exploring-the-design-space">Exploring the Design Space</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#identifying-the-active-effects" id="toc-identifying-the-active-effects" class="nav-link" data-scroll-target="#identifying-the-active-effects">Identifying the active effects</a></li>
+  <li><a href="#checking-the-residuals" id="toc-checking-the-residuals" class="nav-link" data-scroll-target="#checking-the-residuals">Checking the residuals</a></li>
+  <li><a href="#optimizing-the-model" id="toc-optimizing-the-model" class="nav-link" data-scroll-target="#optimizing-the-model">Optimizing the Model</a></li>
+  </ul></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Design of Experiments</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">experimentation</div>
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">data-science</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nick Gould </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 6, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://xkcd.com/552/"><img src="https://imgs.xkcd.com/comics/correlation.png" class="img-fluid"></a></p>
+<section id="design-of-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="design-of-experiments">Design of Experiments</h2>
+<section id="what-is-a-doe" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-doe">What is a DoE?</h3>
+<ul>
+<li>A <a href="https://en.wikipedia.org/wiki/Design_of_experiments"><strong>Design of Experiments</strong></a> (abbreviated DoE) is a method for systematically varying factors to evaluate their effect on a response</li>
+<li>A DoE uses concepts from statistics, probability, linear algebra, geometry, and calculus to try to maximize the amount of information that can be obtained with the minimum number of experiments</li>
+<li>Much like how you don’t have to understand how an engine or transmission works to drive a car, you don’t have to understand all the math behind a DoE to perform or analyze a DoE</li>
+</ul>
+</section>
+<section id="terminology" class="level3">
+<h3 class="anchored" data-anchor-id="terminology">Terminology</h3>
+<ul>
+<li>A <strong>factor</strong> is an independent variable being changed. It can be continuous (like temperature or concentration) or categorical (specific reagent).</li>
+<li>A <strong>response</strong> is a dependent variable being measured. It can also be continuous or categorical.</li>
+<li>A <strong>main effect</strong> is a linear effect of a factor on the response
+<ul>
+<li>For example: Doubling the concentration of a reagent doubles the yield</li>
+</ul></li>
+<li>An <strong>interaction term</strong> is an effect where two factors affect a response together
+<ul>
+<li>For example: Month of the year and outside temperature have an interaction with ice cream sales, typically there are more sales of ice cream on hot days in the summer than the winter (even if the Cornell Dairy Bar is delicious year-round)</li>
+</ul></li>
+<li>A <strong>squared term</strong> is an effect where a factor has some curvature and possibly an optimum
+<ul>
+<li>For example: Enzymes typically work best at certain temperatures. If the temperature is too low or two high, then the enzyme may not work properly</li>
+</ul></li>
+<li><strong>Higher order terms</strong> exist (for example cubic terms), but you’re unlikely to run into those in a DoE</li>
+<li><strong>Design Resolution</strong> describes what gets confounded (aliased) in a fractional design. The three you’ll usually meet:
+<ul>
+<li><strong>III</strong> — main effects are aliased with two-factor interactions</li>
+<li><strong>IV</strong> — main effects are clear of two-factor interactions, but the two-factor interactions are aliased with each other</li>
+<li><strong>V</strong> — main effects and two-factor interactions are all clear of one another (2-way interactions are aliased only with 3-way and higher terms)</li>
+</ul></li>
+</ul>
+</section>
+<section id="selecting-terms-and-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="selecting-terms-and-conditions">Selecting Terms and Conditions</h3>
+<p>Not to be confused with the check box you click before doing anything on a computer.</p>
+<section id="selecting-factors-and-responses" class="level4">
+<h4 class="anchored" data-anchor-id="selecting-factors-and-responses">Selecting Factors and Responses</h4>
+<ul>
+<li>To determine which factors influence a response, the conditions under which the factors are run should be as uncorrelated as possible</li>
+<li>For two factors, they are arranged in a square or rectangular grid (r<sup>2</sup> = 0)</li>
+<li>If the factors are laid out in a different arrangement, it can be difficult to determine how much a factor affects a response during analysis
+<ul>
+<li>This becomes important later when trying to optimize the amount of information obtained using the minimum number of experiments</li>
+</ul></li>
+<li>The factors can be assigned to grid points
+<ul>
+<li>These form a +/- pattern</li>
+<li>Continuous factors work</li>
+<li>Categorical factors work</li>
+<li>Mixing continuous and categorical factors also works</li>
+<li>These gridpoints define an n-dimensional hypercube, for example 2 factors form a square, 3 factors a cube, 4 factors a 4-D hypercube, etc.</li>
+</ul></li>
+</ul>
+<p>If the factors are correlated, it becomes challenging to assign the cause of a response to one or another. Does your ice cream taste better because you added more cream or sugar? If you change both at once, it will be hard to tell.</p>
+<p><img src="../images/DoE_variance.png" class="img-fluid"></p>
+</section>
+<section id="subject-matter-expertise-matters" class="level4">
+<h4 class="anchored" data-anchor-id="subject-matter-expertise-matters">Subject Matter Expertise Matters</h4>
+<p>A DoE is not a blank check ignore known information, and these can be used to inform a design.</p>
+<p>Examples:</p>
+<ul>
+<li>Enzymes are proteins that have a narrow band of temperatures where they will function properly. Human proteins work in a narrow band of temperatures in the upper 90s to low 100s F. Setting the boundary conditions becomes important and the results might be different for different organisms. Human digestive enzymes will want to be around 99F; heat shock proteins might prefer higher temperatures seen with a fever, exercise, or sauna use. Some species of fish live in arctic climates that would kill a human in minutes.</li>
+<li>Phase changes, if a DoE has bounds above and below the boiling point of water and there’s water in the system, that might affect the results</li>
+<li>Material properties of components, a steam engine tends to be more efficient at higher temperatures. Steel has an upper temperature cutoff that could cause the engine to fail and thus require more exotic (read: expensive) materials, or a fuel might not be capable of generating enough heat and require a more expensive or harder to handle fuel.</li>
+</ul>
+</section>
+</section>
+<section id="types-of-does" class="level3">
+<h3 class="anchored" data-anchor-id="types-of-does">Types of DoEs</h3>
+<p>There are dozens of types of DoEs, but the main ones to know are:</p>
+<ul>
+<li>Full Factorial Design</li>
+<li>Fractional Factorial Design</li>
+<li>Response Surface Design</li>
+<li>Definitive Screening Design</li>
+<li>Mixture Design</li>
+</ul>
+<section id="full-factorial" class="level4">
+<h4 class="anchored" data-anchor-id="full-factorial">Full Factorial</h4>
+<ul>
+<li>A full factorial DoE does experiments on every corner of a design space. For two factors it looks like a square, three factors a cube, etc.</li>
+<li>A 2<sup>n</sup> full factorial DoE will give full resolution of all main effects and interaction terms
+<ul>
+<li>A 2<sup>n</sup> full factorial DoE with a center point should detect if there’s a squared term, but won’t be able to assign it to which factor; adding a center point shouldn’t mess up the geometry of a factorial DoE</li>
+</ul></li>
+<li>A 3<sup>n</sup> full factorial DoE will give full resolution of all main effects, interaction terms, and squared terms Full factorial DoE’s are very expensive in terms of total experiments required</li>
+</ul>
+</section>
+<section id="fractional-factorial" class="level4">
+<h4 class="anchored" data-anchor-id="fractional-factorial">Fractional Factorial</h4>
+<ul>
+<li>A fractional factorial DoE does experiments on every other corner of a design space.</li>
+<li>Depending on its resolution, a fractional factorial can give clean main effects while confounding some interactions (Resolution IV or higher); a lower-resolution (III) fraction buys even fewer runs but aliases main effects with two-factor interactions
+<ul>
+<li>For example: it may be impossible to tell the difference between a response is caused by a Temperature and Stir Rate interaction, or a Concentration and Reaction Time interaction</li>
+</ul></li>
+<li>Fractional factorial DoE’s require half the number of experiments that a full factorial design requires, 2<sup>n-1</sup> for n factors</li>
+</ul>
+</section>
+<section id="response-surface-design" class="level4">
+<h4 class="anchored" data-anchor-id="response-surface-design">Response Surface Design</h4>
+<ul>
+<li>A Response Surface Design (RSM) builds on a factorial design by adding extra points specifically chosen to estimate squared terms, so it can detect curvature and locate an actual optimum instead of just a linear trend</li>
+<li>The two most common RSM designs are Central Composite Designs (CCD), which add axial (“star”) points and center points to a factorial core, and Box-Behnken designs, which avoid the corners of the design space entirely
+<ul>
+<li>Box-Behnken designs are useful when the corners of a design space represent conditions that are impractical or unsafe to run, e.g.&nbsp;testing the highest temperature and highest pressure at the same time</li>
+</ul></li>
+<li>Response Surface Designs give full resolution of main effects, interactions, and squared terms, similar to a 3ⁿ full factorial, but require far fewer experiments to get there</li>
+<li>Response Surface Designs are typically run after a screening design or characterization step has already narrowed down which factors matter; adding curvature-detecting runs for a factor that turns out not to matter is a wasted experiment</li>
+</ul>
+</section>
+<section id="definitive-screening-design" class="level4">
+<h4 class="anchored" data-anchor-id="definitive-screening-design">Definitive Screening Design</h4>
+<ul>
+<li>A definitive screening design (DSD) designs its runs so there is always some resolution between interactions, but never perfect resolution
+<ul>
+<li>This trade off in precision greatly reduces the number of experiments, but can reduce the accuracy of predictive models</li>
+</ul></li>
+<li>Definitive Screening Designs allow for squared terms</li>
+<li>Definitive Screening Designs can reduce the number of experiments required for more than 4 factors, when the exponential growth of factorial designs make experiments resource prohibitive</li>
+<li>If a design determines that all the factors are important, it becomes difficult to model more than the main effects</li>
+</ul>
+</section>
+</section>
+<section id="deciding-on-which-doe-to-run" class="level3">
+<h3 class="anchored" data-anchor-id="deciding-on-which-doe-to-run">Deciding on which DoE to run</h3>
+<p>In practice, these design types aren’t really independent choices so much as stages of a single sequential experimentation strategy, often summarized as screen, characterize, optimize. Most real projects start with more candidate factors than anyone can afford to run a full factorial on, so the campaign begins with a screening design — a Definitive Screening Design or a low-resolution (III) fractional factorial — whose only job is finding which handful of factors actually matter, accepting confounded interactions and no curvature as the price of getting there cheaply. Once the vital few are identified, a higher-resolution fractional or full factorial characterizes them properly, resolving clean main effects and (resolution permitting) clean two-factor interactions. If the goal is to land on an optimum rather than just understand the system, and the characterization step hints at curvature, a Response Surface Design adds the runs needed to estimate squared terms and actually locate a maximum or minimum.</p>
+<p>Mixture Designs sit outside this progression entirely; they describe formulation problems, where the factors are ingredient proportions that have to sum to 100%, rather than independently adjustable settings, so they need their own geometry rather than fitting into a screen-characterize-optimize story.</p>
+<p>Worth noting: the example analyzed on this page skips the screening stage entirely and jumps straight to a full factorial — a reasonable call when subject matter expertise (see above) already tells you which four factors matter, which is exactly the kind of judgment call that makes DoE more of a craft than a formula.</p>
+</section>
+<section id="comparison-of-doe-run-counts" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-doe-run-counts">Comparison of DoE run counts</h3>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyDOE3 <span class="im">import</span> ff2n</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>PlotWidth <span class="op">=</span> <span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">'Number of Factors'</span>: {<span class="dv">0</span>: <span class="dv">2</span>, <span class="dv">1</span>: <span class="dv">3</span>, <span class="dv">2</span>: <span class="dv">4</span>, <span class="dv">3</span>: <span class="dv">5</span>, <span class="dv">4</span>: <span class="dv">6</span>, <span class="dv">5</span>: <span class="dv">7</span>, <span class="dv">6</span>: <span class="dv">8</span>},</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> <span class="st">'2n Full Factorial'</span>: {<span class="dv">0</span>: <span class="dv">4</span>, <span class="dv">1</span>: <span class="dv">8</span>, <span class="dv">2</span>: <span class="dv">16</span>, <span class="dv">3</span>: <span class="dv">32</span>, <span class="dv">4</span>: <span class="dv">64</span>, <span class="dv">5</span>: <span class="dv">128</span>, <span class="dv">6</span>: <span class="dv">256</span>},</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'3n Full Factorial'</span>: {<span class="dv">0</span>: <span class="dv">9</span>, <span class="dv">1</span>: <span class="dv">27</span>, <span class="dv">2</span>: <span class="dv">81</span>, <span class="dv">3</span>: <span class="dv">243</span>, <span class="dv">4</span>: <span class="dv">729</span>, <span class="dv">5</span>: <span class="dv">2187</span>, <span class="dv">6</span>: <span class="dv">6561</span>},</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'Fractional Factorial'</span>: {<span class="dv">0</span>: <span class="st">''</span>, <span class="dv">1</span>: <span class="dv">4</span>, <span class="dv">2</span>: <span class="dv">8</span>, <span class="dv">3</span>: <span class="dv">16</span>, <span class="dv">4</span>: <span class="dv">32</span>, <span class="dv">5</span>: <span class="dv">64</span>, <span class="dv">6</span>: <span class="dv">128</span>},</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'Definitive Screening Design (JMP)'</span>: {<span class="dv">0</span>: <span class="st">''</span>, <span class="dv">1</span>: <span class="st">''</span>, <span class="dv">2</span>: <span class="dv">17</span>, <span class="dv">3</span>: <span class="dv">17</span>, <span class="dv">4</span>: <span class="dv">17</span>, <span class="dv">5</span>: <span class="dv">21</span>, <span class="dv">6</span>: <span class="dv">21</span>},</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'Definitive Screening Design (Jones–Nachtsheim)'</span>: {<span class="dv">0</span>: <span class="st">''</span>, <span class="dv">1</span>: <span class="st">''</span>, <span class="dv">2</span>: <span class="dv">9</span>, <span class="dv">3</span>: <span class="dv">11</span>, <span class="dv">4</span>: <span class="dv">13</span>, <span class="dv">5</span>: <span class="dv">15</span>, <span class="dv">6</span>: <span class="dv">17</span>}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  }).style.hide(axis<span class="op">=</span><span class="st">'index'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<style type="text/css">
+</style>
+
+<table id="T_b4764" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_b4764_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Number of Factors</th>
+<th id="T_b4764_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">2n Full Factorial</th>
+<th id="T_b4764_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">3n Full Factorial</th>
+<th id="T_b4764_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Fractional Factorial</th>
+<th id="T_b4764_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Definitive Screening Design (JMP)</th>
+<th id="T_b4764_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Definitive Screening Design (Jones–Nachtsheim)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_b4764_row0_col0" class="data row0 col0">2</td>
+<td id="T_b4764_row0_col1" class="data row0 col1">4</td>
+<td id="T_b4764_row0_col2" class="data row0 col2">9</td>
+<td id="T_b4764_row0_col3" class="data row0 col3"></td>
+<td id="T_b4764_row0_col4" class="data row0 col4"></td>
+<td id="T_b4764_row0_col5" class="data row0 col5"></td>
+</tr>
+<tr class="even">
+<td id="T_b4764_row1_col0" class="data row1 col0">3</td>
+<td id="T_b4764_row1_col1" class="data row1 col1">8</td>
+<td id="T_b4764_row1_col2" class="data row1 col2">27</td>
+<td id="T_b4764_row1_col3" class="data row1 col3">4</td>
+<td id="T_b4764_row1_col4" class="data row1 col4"></td>
+<td id="T_b4764_row1_col5" class="data row1 col5"></td>
+</tr>
+<tr class="odd">
+<td id="T_b4764_row2_col0" class="data row2 col0">4</td>
+<td id="T_b4764_row2_col1" class="data row2 col1">16</td>
+<td id="T_b4764_row2_col2" class="data row2 col2">81</td>
+<td id="T_b4764_row2_col3" class="data row2 col3">8</td>
+<td id="T_b4764_row2_col4" class="data row2 col4">17</td>
+<td id="T_b4764_row2_col5" class="data row2 col5">9</td>
+</tr>
+<tr class="even">
+<td id="T_b4764_row3_col0" class="data row3 col0">5</td>
+<td id="T_b4764_row3_col1" class="data row3 col1">32</td>
+<td id="T_b4764_row3_col2" class="data row3 col2">243</td>
+<td id="T_b4764_row3_col3" class="data row3 col3">16</td>
+<td id="T_b4764_row3_col4" class="data row3 col4">17</td>
+<td id="T_b4764_row3_col5" class="data row3 col5">11</td>
+</tr>
+<tr class="odd">
+<td id="T_b4764_row4_col0" class="data row4 col0">6</td>
+<td id="T_b4764_row4_col1" class="data row4 col1">64</td>
+<td id="T_b4764_row4_col2" class="data row4 col2">729</td>
+<td id="T_b4764_row4_col3" class="data row4 col3">32</td>
+<td id="T_b4764_row4_col4" class="data row4 col4">17</td>
+<td id="T_b4764_row4_col5" class="data row4 col5">13</td>
+</tr>
+<tr class="even">
+<td id="T_b4764_row5_col0" class="data row5 col0">7</td>
+<td id="T_b4764_row5_col1" class="data row5 col1">128</td>
+<td id="T_b4764_row5_col2" class="data row5 col2">2187</td>
+<td id="T_b4764_row5_col3" class="data row5 col3">64</td>
+<td id="T_b4764_row5_col4" class="data row5 col4">21</td>
+<td id="T_b4764_row5_col5" class="data row5 col5">15</td>
+</tr>
+<tr class="odd">
+<td id="T_b4764_row6_col0" class="data row6 col0">8</td>
+<td id="T_b4764_row6_col1" class="data row6 col1">256</td>
+<td id="T_b4764_row6_col2" class="data row6 col2">6561</td>
+<td id="T_b4764_row6_col3" class="data row6 col3">128</td>
+<td id="T_b4764_row6_col4" class="data row6 col4">21</td>
+<td id="T_b4764_row6_col5" class="data row6 col5">17</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Important note:</strong> Run order should be randomized. It’s often easier for the person performing the experiment to knock out certain combinations of factors in blocks, but doing this could introduce uncontrolled factors like environmental conditions (the lab is hotter in the afternoon than the morning) or operational (the experimenter is better at performing the later experiments than the earlier ones)</p>
+<p>Additionally, blocking is an option for other nuisance factors. For example, a 4 factor 2<sup>n</sup> DoE with 16 runs, but only 4 equipment slots per day to run. Blocking these runs into groups of 4 can account for the effects of things like “Monday” or “Tuesday.”</p>
+</section>
+</section>
+<section id="example-of-generating-a-doe-in-python" class="level2">
+<h2 class="anchored" data-anchor-id="example-of-generating-a-doe-in-python">Example of Generating a DoE in Python</h2>
+<p>Most DoE software packages have functionality to generate a DoE based on your needs. Here’s an example of how one might generate a full factorial DoE varying 4 common reaction parameters using the pyDOE3 library.</p>
+<div id="cell-5" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>design <span class="op">=</span> ff2n(<span class="dv">4</span>)  <span class="co"># shape: (16, 4)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>factors <span class="op">=</span> [<span class="st">'Catalyst Charge'</span>, <span class="st">'Temperature'</span>, <span class="st">'Pressure'</span>, <span class="st">'Concentration'</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>doe <span class="op">=</span> pd.DataFrame(design, columns<span class="op">=</span>factors)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Map coded (-1/+1) levels to the actual engineering units used in</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># the Box, Hunter &amp; Hunter (1978) study, referenced below</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>level_map <span class="op">=</span> {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Catalyst Charge'</span>: {<span class="op">-</span><span class="dv">1</span>: <span class="dv">10</span>,  <span class="dv">1</span>: <span class="dv">15</span>},</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Temperature'</span>:      {<span class="op">-</span><span class="dv">1</span>: <span class="dv">220</span>, <span class="dv">1</span>: <span class="dv">240</span>},</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Pressure'</span>:         {<span class="op">-</span><span class="dv">1</span>: <span class="dv">50</span>,  <span class="dv">1</span>: <span class="dv">80</span>},</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Concentration'</span>:    {<span class="op">-</span><span class="dv">1</span>: <span class="dv">10</span>,  <span class="dv">1</span>: <span class="dv">12</span>},</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> factor, mapping <span class="kw">in</span> level_map.items():</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    doe[factor] <span class="op">=</span> doe[factor].<span class="bu">map</span>(mapping)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomize run order</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>doe <span class="op">=</span> doe.sample(frac<span class="op">=</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">1729</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>doe.index <span class="op">=</span> doe.index <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>doe.index.name <span class="op">=</span> <span class="st">'Run Order'</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>display(doe.reset_index())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Run Order</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge</th>
+<th data-quarto-table-cell-role="th">Temperature</th>
+<th data-quarto-table-cell-role="th">Pressure</th>
+<th data-quarto-table-cell-role="th">Concentration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>10</td>
+<td>220</td>
+<td>50</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>10</td>
+<td>220</td>
+<td>80</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>15</td>
+<td>240</td>
+<td>80</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>15</td>
+<td>220</td>
+<td>80</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>10</td>
+<td>240</td>
+<td>80</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>10</td>
+<td>240</td>
+<td>50</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>7</td>
+<td>15</td>
+<td>220</td>
+<td>50</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>8</td>
+<td>10</td>
+<td>220</td>
+<td>50</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>9</td>
+<td>15</td>
+<td>220</td>
+<td>80</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>10</td>
+<td>15</td>
+<td>220</td>
+<td>50</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>11</td>
+<td>15</td>
+<td>240</td>
+<td>80</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>12</td>
+<td>15</td>
+<td>240</td>
+<td>50</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>13</td>
+<td>10</td>
+<td>240</td>
+<td>50</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>14</td>
+<td>10</td>
+<td>220</td>
+<td>80</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>15</td>
+<td>10</td>
+<td>240</td>
+<td>80</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>16</td>
+<td>15</td>
+<td>240</td>
+<td>50</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="example-of-a-doe-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="example-of-a-doe-analysis">Example of a DoE Analysis</h2>
+<p>Here is a short example of using the <a href="https://www.statsmodels.org/stable/index.html">statmodels</a> python library to analyze a DoE. This can also be done using commercial software like <a href="https://www.jmp.com/en/home">JMP</a> or <a href="https://www.minitab.com/en-us/">Minitab</a>, or R. My personal preference would be to use JMP.</p>
+<p>For this example, I’m going to use the dataset: <a href="../data/boxconverter_4_16.dat">CAT/TEMP/PRES/CONC EFFECT ON CHEMICAL PROCESS CONVERSION YIELD BOX, HUNTER &amp; HUNTER (1978)</a>, which is sort-of available from <a href="https://www.itl.nist.gov/div898/education/datasets.htm">NIST</a> website, however they’ve moved things around at least once and broken links on me, so it’s now mirrored.</p>
+<section id="importing-the-data-into-python" class="level3">
+<h3 class="anchored" data-anchor-id="importing-the-data-into-python">Importing the data into Python</h3>
+<p>Unfortunately the data aren’t in a <em>super</em> convenient format for importing or data analysis, so we need to do some work to get the data into a pandas dataframe.</p>
+<div id="cell-7" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">'%Conversion'</span>, <span class="st">'Catalyst Charge'</span>, <span class="st">'Temperature'</span>, <span class="st">'Pressure'</span>, <span class="st">'Concentration'</span>, <span class="st">'Run Order'</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>myDoE <span class="op">=</span> pd.read_csv(<span class="st">'../data/boxconverter_4_16.dat'</span>, skiprows<span class="op">=</span><span class="dv">25</span>, sep<span class="op">=</span><span class="st">'</span><span class="er">\</span><span class="st">s+'</span>, names<span class="op">=</span>columns, index_col<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>display(myDoE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">%Conversion</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge</th>
+<th data-quarto-table-cell-role="th">Temperature</th>
+<th data-quarto-table-cell-role="th">Pressure</th>
+<th data-quarto-table-cell-role="th">Concentration</th>
+<th data-quarto-table-cell-role="th">Run Order</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>71</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>61</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>90</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>82</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>68</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>61</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>87</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>80</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>13</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>61</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>50</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>89</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>83</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>14</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>59</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>51</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>85</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>78</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="exploring-the-design-space" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-the-design-space">Exploring the Design Space</h3>
+<p>It’s not obvious from looking at the tables what kind of design it is. Sure, you can look at the run counts chart we just looked at, count the number of factors, and figure out that it’s full factorial, but let’s prove it.</p>
+<p>We also need to replace the grid points of -1 and 1 with their actual values.</p>
+<p>We will need to expand this table to include interactions and squared terms, and then look at their corrleations. To preserve the symmetry, we also need to center the interaction and squared terms by subtracting off the average value they take.</p>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'Catalyst Charge'</span>] <span class="op">=</span> myDoE[<span class="st">'Catalyst Charge'</span>].replace([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">10</span>,<span class="dv">15</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'Temperature'</span>] <span class="op">=</span> myDoE[<span class="st">'Temperature'</span>].replace([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">220</span>,<span class="dv">240</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'Pressure'</span>] <span class="op">=</span> myDoE[<span class="st">'Pressure'</span>].replace([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">50</span>,<span class="dv">80</span>])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'Concentration'</span>] <span class="op">=</span> myDoE[<span class="st">'Concentration'</span>].replace([<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>], [<span class="dv">10</span>,<span class="dv">12</span>])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>Factors <span class="op">=</span> [<span class="st">'Catalyst Charge'</span>, <span class="st">'Temperature'</span>, <span class="st">'Pressure'</span>, <span class="st">'Concentration'</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Interactions <span class="op">=</span> <span class="bu">list</span>(combinations(Factors, <span class="dv">2</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>interactionCols <span class="op">=</span> []</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># interactions</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> factorA, factorB <span class="kw">in</span> Interactions:</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    interactionName <span class="op">=</span> factorA <span class="op">+</span> <span class="st">' * '</span> <span class="op">+</span> factorB</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    myDoE[interactionName] <span class="op">=</span> (myDoE[factorA] <span class="op">-</span> myDoE[factorA].mean()) <span class="op">*</span> (myDoE[factorB] <span class="op">-</span> myDoE[factorB].mean())</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    interactionCols.append(interactionName)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># squared terms</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>squaredCols <span class="op">=</span> []</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> factor <span class="kw">in</span> Factors:</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    squaredName <span class="op">=</span> factor <span class="op">+</span> <span class="st">' * '</span> <span class="op">+</span> factor</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    myDoE[squaredName] <span class="op">=</span> (myDoE[factor] <span class="op">-</span> myDoE[factor].mean()) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    squaredCols.append(squaredName)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>display(myDoE)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>sns.heatmap(np.<span class="bu">round</span>(myDoE[Factors <span class="op">+</span> interactionCols <span class="op">+</span> squaredCols].corr(), <span class="dv">2</span>), linewidths<span class="op">=</span><span class="fl">0.5</span>, annot<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Correlation Heatmap"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">%Conversion</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge</th>
+<th data-quarto-table-cell-role="th">Temperature</th>
+<th data-quarto-table-cell-role="th">Pressure</th>
+<th data-quarto-table-cell-role="th">Concentration</th>
+<th data-quarto-table-cell-role="th">Run Order</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge * Temperature</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge * Pressure</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge * Concentration</th>
+<th data-quarto-table-cell-role="th">Temperature * Pressure</th>
+<th data-quarto-table-cell-role="th">Temperature * Concentration</th>
+<th data-quarto-table-cell-role="th">Pressure * Concentration</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge * Catalyst Charge</th>
+<th data-quarto-table-cell-role="th">Temperature * Temperature</th>
+<th data-quarto-table-cell-role="th">Pressure * Pressure</th>
+<th data-quarto-table-cell-role="th">Concentration * Concentration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>71</td>
+<td>10</td>
+<td>220</td>
+<td>50</td>
+<td>10</td>
+<td>8</td>
+<td>25.0</td>
+<td>37.5</td>
+<td>2.5</td>
+<td>150.0</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>61</td>
+<td>15</td>
+<td>220</td>
+<td>50</td>
+<td>10</td>
+<td>2</td>
+<td>-25.0</td>
+<td>-37.5</td>
+<td>-2.5</td>
+<td>150.0</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>90</td>
+<td>10</td>
+<td>240</td>
+<td>50</td>
+<td>10</td>
+<td>10</td>
+<td>-25.0</td>
+<td>37.5</td>
+<td>2.5</td>
+<td>-150.0</td>
+<td>-10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>82</td>
+<td>15</td>
+<td>240</td>
+<td>50</td>
+<td>10</td>
+<td>4</td>
+<td>25.0</td>
+<td>-37.5</td>
+<td>-2.5</td>
+<td>-150.0</td>
+<td>-10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>68</td>
+<td>10</td>
+<td>220</td>
+<td>80</td>
+<td>10</td>
+<td>15</td>
+<td>25.0</td>
+<td>-37.5</td>
+<td>2.5</td>
+<td>-150.0</td>
+<td>10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>61</td>
+<td>15</td>
+<td>220</td>
+<td>80</td>
+<td>10</td>
+<td>9</td>
+<td>-25.0</td>
+<td>37.5</td>
+<td>-2.5</td>
+<td>-150.0</td>
+<td>10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>87</td>
+<td>10</td>
+<td>240</td>
+<td>80</td>
+<td>10</td>
+<td>1</td>
+<td>-25.0</td>
+<td>-37.5</td>
+<td>2.5</td>
+<td>150.0</td>
+<td>-10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>80</td>
+<td>15</td>
+<td>240</td>
+<td>80</td>
+<td>10</td>
+<td>13</td>
+<td>25.0</td>
+<td>37.5</td>
+<td>-2.5</td>
+<td>150.0</td>
+<td>-10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>61</td>
+<td>10</td>
+<td>220</td>
+<td>50</td>
+<td>12</td>
+<td>16</td>
+<td>25.0</td>
+<td>37.5</td>
+<td>-2.5</td>
+<td>150.0</td>
+<td>-10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>50</td>
+<td>15</td>
+<td>220</td>
+<td>50</td>
+<td>12</td>
+<td>5</td>
+<td>-25.0</td>
+<td>-37.5</td>
+<td>2.5</td>
+<td>150.0</td>
+<td>-10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>89</td>
+<td>10</td>
+<td>240</td>
+<td>50</td>
+<td>12</td>
+<td>11</td>
+<td>-25.0</td>
+<td>37.5</td>
+<td>-2.5</td>
+<td>-150.0</td>
+<td>10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>83</td>
+<td>15</td>
+<td>240</td>
+<td>50</td>
+<td>12</td>
+<td>14</td>
+<td>25.0</td>
+<td>-37.5</td>
+<td>2.5</td>
+<td>-150.0</td>
+<td>10.0</td>
+<td>-15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>59</td>
+<td>10</td>
+<td>220</td>
+<td>80</td>
+<td>12</td>
+<td>3</td>
+<td>25.0</td>
+<td>-37.5</td>
+<td>-2.5</td>
+<td>-150.0</td>
+<td>-10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>51</td>
+<td>15</td>
+<td>220</td>
+<td>80</td>
+<td>12</td>
+<td>12</td>
+<td>-25.0</td>
+<td>37.5</td>
+<td>2.5</td>
+<td>-150.0</td>
+<td>-10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>85</td>
+<td>10</td>
+<td>240</td>
+<td>80</td>
+<td>12</td>
+<td>6</td>
+<td>-25.0</td>
+<td>-37.5</td>
+<td>-2.5</td>
+<td>150.0</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>78</td>
+<td>15</td>
+<td>240</td>
+<td>80</td>
+<td>12</td>
+<td>7</td>
+<td>25.0</td>
+<td>37.5</td>
+<td>2.5</td>
+<td>150.0</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>6.25</td>
+<td>100.0</td>
+<td>225.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When we do this, we notice the correlations between each factor and every other factor, each factor and every interaction, and each interaction and every other interaction are all 0; everything is mutually orthogonal.</p>
+<p>The squared terms behave differently: in a two-level design each factor takes only two values, so once you center and square it, every run collapses to the <em>same</em> constant value. A constant column has zero variance, so its correlation is undefined (it shows up blank/NaN in the heatmap) and it’s perfectly confounded with the intercept. This is why curvature can’t be estimated from a two-level design. Because all main effects and two-factor interactions are mutually clear, this design is at least Resolution V; in fact, being a full factorial, nothing is aliased at all.</p>
+</section>
+<section id="exploratory-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<p>Exploratory Data Analysis (EDA) is an important early step in any data analysis. It gives an idea of how the data are distributed and outliers become immediately apparent.</p>
+<p>We’re going to look at 3 plots:</p>
+<ul>
+<li>Box Plot</li>
+<li>Histogram</li>
+<li>Scatter Plot vs.&nbsp;Run Order</li>
+</ul>
+<div id="cell-11" class="cell" data-scrolled="false" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>myDoE[<span class="st">'%Conversion'</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Box Plot of %Conversion'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'%Conversion'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'%Conversion'</span>].hist()</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'%Conversion'</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'%Conversion'</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.scatter(myDoE[<span class="st">'Run Order'</span>], myDoE[<span class="st">'%Conversion'</span>])</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'%Conversion vs. Run Order'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Run Order'</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'%Conversion'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-7-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So it looks like all the conversion data are of the same order of magnitude and is not autocorrelated to the order in which it was run.</p>
+<p>Using Statmodels, let’s look at what the model looks like for our design space.</p>
+<div id="cell-13" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> myDoE[<span class="st">'%Conversion'</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> myDoE[Factors <span class="op">+</span> interactionCols]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">## An intercept is not added by default, so we need to add that here</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sm.OLS(y, X).fit()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.summary())</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>sns.regplot(x<span class="op">=</span>results.predict(X), y<span class="op">=</span>y)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted %Conversion'</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Actual %Conversion'</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Actual vs. Predicted %Conversion'</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            %Conversion   R-squared:                       0.998
+Model:                            OLS   Adj. R-squared:                  0.994
+Method:                 Least Squares   F-statistic:                     232.9
+Date:                Thu, 06 Aug 2026   Prob (F-statistic):           4.95e-06
+Time:                        09:53:41   Log-Likelihood:                -14.856
+No. Observations:                  16   AIC:                             51.71
+Df Residuals:                       5   BIC:                             60.21
+Df Model:                          10                                         
+Covariance Type:            nonrobust                                         
+===================================================================================================
+                                      coef    std err          t      P&gt;|t|      [0.025      0.975]
+---------------------------------------------------------------------------------------------------
+const                            -148.6250      7.219    -20.589      0.000    -167.181    -130.069
+Catalyst Charge                    -1.6000      0.110    -14.606      0.000      -1.882      -1.318
+Temperature                         1.2000      0.027     43.818      0.000       1.130       1.270
+Pressure                           -0.0750      0.018     -4.108      0.009      -0.122      -0.028
+Concentration                      -2.7500      0.274    -10.042      0.000      -3.454      -2.046
+Catalyst Charge * Temperature       0.0200      0.011      1.826      0.127      -0.008       0.048
+Catalyst Charge * Pressure          0.0100      0.007      1.369      0.229      -0.009       0.029
+Catalyst Charge * Concentration -5.551e-15      0.110  -5.07e-14      1.000      -0.282       0.282
+Temperature * Pressure             -0.0042      0.002     -2.282      0.071      -0.009       0.001
+Temperature * Concentration         0.2250      0.027      8.216      0.000       0.155       0.295
+Pressure * Concentration           -0.0083      0.018     -0.456      0.667      -0.055       0.039
+==============================================================================
+Omnibus:                        0.035   Durbin-Watson:                   1.635
+Prob(Omnibus):                  0.983   Jarque-Bera (JB):                0.260
+Skew:                          -0.000   Prob(JB):                        0.878
+Kurtosis:                       2.375   Cond. No.                     6.32e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 6.32e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="identifying-the-active-effects" class="level3">
+<h3 class="anchored" data-anchor-id="identifying-the-active-effects">Identifying the active effects</h3>
+<p>With no replication we have no pure-error estimate, so the classic tool here is a <strong>half-normal plot</strong> of the effects (Daniel’s method). Inactive effects fall along a line near the origin; active effects peel away to the upper right. Effects are computed in coded (−1/+1) units so their magnitudes are directly comparable.</p>
+<div id="cell-15" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rebuild a coded (-1/+1) version of the design</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>code_map <span class="op">=</span> {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Catalyst Charge'</span>: {<span class="dv">10</span>: <span class="op">-</span><span class="dv">1</span>, <span class="dv">15</span>: <span class="dv">1</span>},</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Temperature'</span>:     {<span class="dv">220</span>: <span class="op">-</span><span class="dv">1</span>, <span class="dv">240</span>: <span class="dv">1</span>},</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Pressure'</span>:        {<span class="dv">50</span>: <span class="op">-</span><span class="dv">1</span>, <span class="dv">80</span>: <span class="dv">1</span>},</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Concentration'</span>:   {<span class="dv">10</span>: <span class="op">-</span><span class="dv">1</span>, <span class="dv">12</span>: <span class="dv">1</span>},</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>coded <span class="op">=</span> pd.DataFrame({f: myDoE[f].<span class="bu">map</span>(code_map[f]) <span class="cf">for</span> f <span class="kw">in</span> Factors})</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Add all two-factor interactions as products of coded columns</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, b <span class="kw">in</span> combinations(Factors, <span class="dv">2</span>):</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    coded[<span class="ss">f'</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss"> * </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">'</span>] <span class="op">=</span> coded[a] <span class="op">*</span> coded[b]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Xc <span class="op">=</span> sm.add_constant(coded)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>coded_fit <span class="op">=</span> sm.OLS(myDoE[<span class="st">'%Conversion'</span>], Xc).fit()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect = 2 * coefficient in coded units; drop the intercept, sort by magnitude</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span> coded_fit.params.drop(<span class="st">'const'</span>)).sort_values(key<span class="op">=</span>np.<span class="bu">abs</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>abs_effects <span class="op">=</span> effects.<span class="bu">abs</span>().values</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> effects.index</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Half-normal quantiles for the ordered absolute effects</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(abs_effects)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> stats.norm.ppf(<span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> (ranks <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">/</span> n)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>plt.scatter(quantiles, abs_effects)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x, y, lbl <span class="kw">in</span> <span class="bu">zip</span>(quantiles, abs_effects, labels):</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    plt.annotate(lbl, (x, y), textcoords<span class="op">=</span><span class="st">'offset points'</span>, xytext<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">0</span>), fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Half-normal quantile'</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'|Effect|'</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Half-Normal Plot of Effects'</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not all the terms matter. We could remove terms doing <a href="https://en.wikipedia.org/wiki/Stepwise_regression">Stepwise Regression</a>, one at a time.</p>
+<p>We could also observe that the interaction between catalyst charge and concentration, catalyst charge and pressure, and pressure and concentration have high p-values. These can be dropped from the model.</p>
+<p>Catalyst Charge * Concentration has a coefficient that is about as close to 0 as machine precision would allow, effectively ruling out it as an effect.</p>
+<p>The half-normal plot separates the active effects from the inactive ones, which is a nice check.</p>
+<p>We will also keep the interaction term for catalyst charge and temperature despite p=0.088. This is a borderline case and future experiments might want to account for it to decide if it’s real or not.</p>
+<div id="cell-17" class="cell" data-scrolled="false" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> myDoE[<span class="st">'%Conversion'</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> myDoE[[<span class="st">'Catalyst Charge'</span>, <span class="st">'Temperature'</span>, <span class="st">'Pressure'</span>, <span class="st">'Concentration'</span>, <span class="st">'Catalyst Charge * Temperature'</span>, <span class="st">'Temperature * Pressure'</span>, <span class="st">'Temperature * Concentration'</span>]]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">## An intercept is not added by default, so we need to add that here</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sm.OLS(y, X).fit()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.summary())</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>sns.regplot(x<span class="op">=</span>results.predict(X), y<span class="op">=</span>y)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted %Conversion'</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Actual %Conversion'</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Actual vs. Predicted %Conversion'</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            %Conversion   R-squared:                       0.997
+Model:                            OLS   Adj. R-squared:                  0.994
+Method:                 Least Squares   F-statistic:                     375.5
+Date:                Thu, 06 Aug 2026   Prob (F-statistic):           1.98e-09
+Time:                        09:53:41   Log-Likelihood:                -17.643
+No. Observations:                  16   AIC:                             51.29
+Df Residuals:                       8   BIC:                             57.47
+Df Model:                           7                                         
+Covariance Type:            nonrobust                                         
+=================================================================================================
+                                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------
+const                          -148.6250      6.792    -21.881      0.000    -164.288    -132.962
+Catalyst Charge                  -1.6000      0.103    -15.522      0.000      -1.838      -1.362
+Temperature                       1.2000      0.026     46.567      0.000       1.141       1.259
+Pressure                         -0.0750      0.017     -4.366      0.002      -0.115      -0.035
+Concentration                    -2.7500      0.258    -10.672      0.000      -3.344      -2.156
+Catalyst Charge * Temperature     0.0200      0.010      1.940      0.088      -0.004       0.044
+Temperature * Pressure           -0.0042      0.002     -2.425      0.042      -0.008      -0.000
+Temperature * Concentration       0.2250      0.026      8.731      0.000       0.166       0.284
+==============================================================================
+Omnibus:                        2.110   Durbin-Watson:                   1.993
+Prob(Omnibus):                  0.348   Jarque-Bera (JB):                1.216
+Skew:                          -0.363   Prob(JB):                        0.545
+Kurtosis:                       1.862   Cond. No.                     6.32e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 6.32e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="checking-the-residuals" class="level3">
+<h3 class="anchored" data-anchor-id="checking-the-residuals">Checking the residuals</h3>
+<p>Before trusting the model, check its residuals: no structure in residuals-vs-fitted (constant variance), points along the line in the Q-Q plot (approximate normality), and no drift in residuals-vs-run-order (independent errors).</p>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> results.resid</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fitted <span class="op">=</span> results.fittedvalues</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">3</span> <span class="op">*</span> PlotWidth, PlotWidth))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(fitted, resid)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Fitted %Conversion'</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Residual'</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Residuals vs. Fitted'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>stats.probplot(resid, dist<span class="op">=</span><span class="st">'norm'</span>, plot<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Normal Q-Q'</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].scatter(myDoE[<span class="st">'Run Order'</span>], resid)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_xlabel(<span class="st">'Run Order'</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_ylabel(<span class="st">'Residual'</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">'Residuals vs. Run Order'</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DesignOfExperiments_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="optimizing-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="optimizing-the-model">Optimizing the Model</h3>
+<p>Now that we have a model we’re satisfied with, we can optimize for the conditions that give the highest conversion. Since we can’t detect curvature (and the coefficients aren’t all 0), the optimum sits at one of the corners of our 4-D hypercube. Because a full factorial includes every corner, evaluating the model at the design points is enough to find it. If the true optimum lay in the interior of the design space, we’d need curvature-detecting runs (a response surface design) to locate it.</p>
+<p>If the model did contain curvature, we’d do more work using scipy’s optimize functionality.</p>
+<div id="cell-21" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>myDoE[<span class="st">'%Conversion [Predicted]'</span>] <span class="op">=</span> results.predict(X)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Settings at the run with the highest predicted conversion (the optimal corner),</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># not the column-wise max of each factor independently.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>best_idx <span class="op">=</span> myDoE[<span class="st">'%Conversion [Predicted]'</span>].idxmax()</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>display(myDoE.loc[[best_idx], [<span class="st">'%Conversion [Predicted]'</span>] <span class="op">+</span> Factors])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">%Conversion [Predicted]</th>
+<th data-quarto-table-cell-role="th">Catalyst Charge</th>
+<th data-quarto-table-cell-role="th">Temperature</th>
+<th data-quarto-table-cell-role="th">Pressure</th>
+<th data-quarto-table-cell-role="th">Concentration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>90.0</td>
+<td>10</td>
+<td>240</td>
+<td>50</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="https://www.jmp.com/en/online-statistics-course">Statistical Thinking for Industrial Problem Solving (STIPS)</a>
+<ul>
+<li>Put together by JMP, it uses their proprietary software, though in principle everything could be done with Excel, Python, an an abacus. If someone from JMP does read this and wants to get me a free or deeply discounted license for personal use, my contact info is at the top of this page.</li>
+</ul></li>
+<li><a href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr">Crash Course Statistics</a>
+<ul>
+<li>45 10-12 minute video series covering basic statistics to machine learning</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><span id="copyright"></span></p>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("copyright").innerHTML =
+    "© 2020-" + new Date().getFullYear() +
+    " Nick Gould - All Rights Reserved.";
+});
+</script>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

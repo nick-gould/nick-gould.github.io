@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nick Gould">
+
+<title>Thermodynamic Equations of State – Nick Gould</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ee70a2fd9df5cf4968f0e9381ab63cde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Nick Gould</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/nick-gould" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/nick-gould/" target="_blank"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Thermodynamic Equations of State</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+ <span class="menu-text"><b>Pages</b></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/DesignOfExperiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Design of Experiments</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../posts/ElectrochemicalImpedanceSpectroscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Electrochemical Impedance Spectroscopy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://nick-gould.github.io/Lorenz-Simulator/" class="sidebar-item-text sidebar-link" target="blank">
+ <span class="menu-text">Lorenz Attractor Simulator</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#attention" id="toc-attention" class="nav-link active" data-scroll-target="#attention">Attention</a></li>
+  <li><a href="#general-peng-robinson-cubic-equation-of-state-solver" id="toc-general-peng-robinson-cubic-equation-of-state-solver" class="nav-link" data-scroll-target="#general-peng-robinson-cubic-equation-of-state-solver">General Peng-Robinson Cubic Equation of State Solver</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Thermodynamic Equations of State</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">experimentation</div>
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">data-science</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nick Gould </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="attention" class="level3">
+<h3 class="anchored" data-anchor-id="attention">Attention</h3>
+<p>This page is correct, but incomplete. It’s live, but I would like to expand the depth of the material, visuals, and code.</p>
+<p>On the short list to include later:</p>
+<ul>
+<li>Estimation of critical parameters</li>
+<li>Clean up the coding methods</li>
+<li>Probably other stuff</li>
+</ul>
+<hr>
+</section>
+<section id="general-peng-robinson-cubic-equation-of-state-solver" class="level2">
+<h2 class="anchored" data-anchor-id="general-peng-robinson-cubic-equation-of-state-solver">General Peng-Robinson Cubic Equation of State Solver</h2>
+<p>I originally started working on this problem because I wanted a better understanding of how classes worked in Python and wanted to use a problem I already understood to do so. With the benefit of hindsight I <em>probably</em> wouldn’t have done it this way, but it’s functional so here we are.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Equation_of_state#Peng%E2%80%93Robinson_equation_of_state">Peng-Robinson Equation of State</a> is a cubic equation of state for relating Temperature, Pressure, and vapor density similar to the ideal gas law typically presented in high school chemistry, or the van der Waals equation of state typically presented in freshman chemistry. It does a better job than either of those by introducting terms that give particles volume (ideal gas law assumes point particles), as well as allowing electrostatic interactions between particles.</p>
+<p>Outline of what’s available here:</p>
+<ul>
+<li>Setup of python classes for pure components and mixtures of components</li>
+<li>Building out a <a href="https://en.wikipedia.org/wiki/Factorial_experiment">Full-Factorial</a> experiment for determining mole fractions of components based on Temperature and Pressure</li>
+<li>A simple neural network of the results using sklearn</li>
+</ul>
+<p>First, we need to import libraries:</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.optimize</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neural_network <span class="im">import</span> MLPRegressor</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> inv</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next I was unable to find a cubic solver that I liked, so I wrote my own. This function takes two derived terms from the Peng-Robinson EOS and finds the roots of the equation. Specifically it finds the highest of 3 roots if it exists, which is the factor we need for the vapor phase</p>
+<div id="cell-6" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> PengRobinsonCubic(A,B,root<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        coeff <span class="op">=</span> [A<span class="op">/</span>A,B<span class="op">-</span><span class="dv">1</span>,A<span class="op">-</span><span class="dv">2</span><span class="op">*</span>B<span class="op">-</span><span class="dv">3</span><span class="op">*</span>B<span class="op">**</span><span class="dv">2</span>,B<span class="op">**</span><span class="dv">3</span><span class="op">+</span>B<span class="op">**</span><span class="dv">2</span><span class="op">-</span>A<span class="op">*</span>B]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> coeff[<span class="dv">0</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> coeff[<span class="dv">1</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> coeff[<span class="dv">2</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> coeff[<span class="dv">3</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> (<span class="dv">3</span> <span class="op">*</span> a <span class="op">*</span> c <span class="op">-</span> b <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span> (b <span class="op">**</span> <span class="dv">3</span>) <span class="op">-</span> <span class="dv">9</span> <span class="op">*</span> a <span class="op">*</span> b <span class="op">*</span> c <span class="op">+</span> <span class="dv">27</span> <span class="op">*</span> (a <span class="op">**</span> <span class="dv">2</span>) <span class="op">*</span> d) <span class="op">/</span> (<span class="dv">27</span> <span class="op">*</span> a <span class="op">**</span> <span class="dv">3</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        discriminant <span class="op">=</span> <span class="dv">18</span> <span class="op">*</span> a <span class="op">*</span> b <span class="op">*</span> c <span class="op">*</span> d <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> (b <span class="op">**</span> <span class="dv">3</span>) <span class="op">*</span> d <span class="op">+</span> (b <span class="op">**</span> <span class="dv">2</span>) <span class="op">*</span> (c <span class="op">**</span> <span class="dv">2</span>) <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> a <span class="op">*</span> (c <span class="op">**</span> <span class="dv">3</span>) <span class="op">-</span> <span class="dv">27</span> <span class="op">*</span> (a <span class="op">**</span> <span class="dv">2</span>) <span class="op">*</span> (d <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> discriminant <span class="op">&gt;</span> <span class="dv">0</span>: <span class="co">#there are 3 real roots</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> ((<span class="op">-</span>p <span class="op">/</span> <span class="dv">3</span>) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> np.cos((<span class="dv">1</span> <span class="op">/</span> <span class="dv">3</span>) <span class="op">*</span> np.arccos(((<span class="dv">3</span> <span class="op">*</span> q) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> p)) <span class="op">*</span> ((<span class="op">-</span><span class="dv">3</span> <span class="op">/</span> p) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>))) <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> root <span class="op">/</span> <span class="dv">3</span>) <span class="op">-</span> b <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> p <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span> ((p <span class="op">/</span> <span class="dv">3</span>) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> np.sinh((<span class="dv">1</span> <span class="op">/</span> <span class="dv">3</span>) <span class="op">*</span> np.arcsinh(((<span class="dv">3</span> <span class="op">*</span> q) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> p)) <span class="op">*</span> ((<span class="dv">3</span> <span class="op">/</span> p) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>)))) <span class="op">-</span> b <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span> (np.<span class="bu">abs</span>(q) <span class="op">/</span> q) <span class="op">*</span> ((<span class="op">-</span>p <span class="op">/</span> <span class="dv">3</span>) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> np.cosh((<span class="dv">1</span> <span class="op">/</span> <span class="dv">3</span>) <span class="op">*</span> np.arccosh(((<span class="op">-</span><span class="dv">3</span> <span class="op">*</span> np.<span class="bu">abs</span>(q)) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> p)) <span class="op">*</span> ((<span class="op">-</span><span class="dv">3</span> <span class="op">/</span> p) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">2</span>)))) <span class="op">-</span> b <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next we need to worry about all the math behind the Peng-Robinson EOS, which we can do using two classes. One for pure species components and the other for mixtures. The class for mixtures also needs a solver to get a solution for the mole fractions. This is accomplished with scipy.optimize.least_squares and some linear algebra involving mole fractions adding up to 1 and fugacities.</p>
+<p>The pure species class has optional terms for PSVR2.</p>
+<p>When the mixture model does not converge, numbers for np.nan will be used instead.</p>
+<p>For units: * Temperature is in Celcius * Pressure is in Barg * Volume is in L</p>
+<div id="cell-8" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> component:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, Tc, Pc, omega, kappa1<span class="op">=</span><span class="dv">0</span>, kappa2<span class="op">=</span><span class="dv">0</span>, kappa3<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Tc <span class="op">=</span> Tc</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Pc <span class="op">=</span> Pc</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.omega <span class="op">=</span> omega</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.kappa1 <span class="op">=</span> kappa1</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.kappa2 <span class="op">=</span> kappa2</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.kappa3 <span class="op">=</span> kappa3</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> setConditions(<span class="va">self</span>,P,T):</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        P <span class="op">=</span> np.array(P)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> np.array(T)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        Tc <span class="op">=</span> <span class="va">self</span>.Tc</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        Pc <span class="op">=</span> <span class="va">self</span>.Pc</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        omega <span class="op">=</span> <span class="va">self</span>.omega</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        kappa1 <span class="op">=</span> <span class="va">self</span>.kappa1</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        kappa2 <span class="op">=</span> <span class="va">self</span>.kappa2</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        kappa3 <span class="op">=</span> <span class="va">self</span>.kappa3</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> T <span class="op">+</span> <span class="fl">273.15</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        P <span class="op">=</span> P <span class="op">+</span> <span class="fl">1.01325</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        R <span class="op">=</span> <span class="fl">0.083144626</span> <span class="co">#(Bar*L)/(mol*K)</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.R <span class="op">=</span> R</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        Tr <span class="op">=</span> T <span class="op">/</span> Tc</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Tr <span class="op">=</span> Tr</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.kappa0 <span class="op">=</span> <span class="fl">0.378893</span><span class="op">+</span><span class="fl">1.4897153</span><span class="op">*</span>omega<span class="op">-</span><span class="fl">.17131848</span><span class="op">*</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">+</span><span class="fl">0.0196554</span><span class="op">*</span>omega<span class="op">**</span><span class="dv">3</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.kappa <span class="op">=</span> <span class="va">self</span>.kappa0 <span class="op">+</span> (kappa1<span class="op">+</span>kappa2<span class="op">*</span>(kappa3<span class="op">-</span>Tr)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>np.sqrt(Tr)))        </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.alpha <span class="op">=</span> (<span class="dv">1</span><span class="op">+</span><span class="va">self</span>.kappa<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>np.sqrt(Tr)))<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> <span class="fl">0.45724</span><span class="op">*</span>(R<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(Tc<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>Pc</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> <span class="fl">0.07780</span><span class="op">*</span>R<span class="op">*</span>Tc<span class="op">/</span>Pc</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.A <span class="op">=</span> (<span class="va">self</span>.a<span class="op">*</span><span class="va">self</span>.alpha<span class="op">*</span>P)<span class="op">/</span>(<span class="va">self</span>.R<span class="op">**</span><span class="dv">2</span><span class="op">*</span>T<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.B <span class="op">=</span> (<span class="va">self</span>.b<span class="op">*</span>P)<span class="op">/</span>(<span class="va">self</span>.R<span class="op">*</span>T)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Psat <span class="op">=</span> np.exp(np.log(<span class="va">self</span>.Pc)<span class="op">+</span>np.log(<span class="dv">10</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="dv">1</span><span class="op">/</span>Tr)<span class="op">*</span>(<span class="dv">7</span><span class="op">+</span><span class="dv">7</span><span class="op">*</span><span class="va">self</span>.omega)<span class="op">/</span><span class="dv">3</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Z <span class="op">=</span> PengRobinsonCubic(<span class="va">self</span>.A,<span class="va">self</span>.B)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Vn <span class="op">=</span> <span class="va">self</span>.Z<span class="op">*</span><span class="va">self</span>.R<span class="op">*</span>T<span class="op">/</span>P</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> mixture:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>,component1,component2,k<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.component1 <span class="op">=</span> copy.deepcopy(component1)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.component2 <span class="op">=</span> copy.deepcopy(component2)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.k <span class="op">=</span> k</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> setMixtureConditions(<span class="va">self</span>,P,T):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        P <span class="op">=</span> np.array(P)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> np.array(T)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.P <span class="op">=</span> P <span class="op">+</span> <span class="fl">1.01325</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.T <span class="op">=</span> T <span class="op">+</span> <span class="fl">273.15</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.component1.setConditions(P,T)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.component2.setConditions(P,T)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         initialize the mole fractions using Raoult's law as a starting point</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        Raoult <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>,<span class="va">self</span>.component1.Psat,<span class="dv">0</span>],[<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="va">self</span>.component2.Psat],[<span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span>P<span class="op">+</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="op">-</span>P<span class="op">+</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>]])</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        SolveAgainst <span class="op">=</span> np.array([<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>])</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        [<span class="va">self</span>.x1, <span class="va">self</span>.x2, <span class="va">self</span>.y1, <span class="va">self</span>.y2] <span class="op">=</span> SolveAgainst.dot(inv(Raoult))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> solveMoleFractions(<span class="va">self</span>):</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        guess <span class="op">=</span> [<span class="va">self</span>.x1, <span class="va">self</span>.y1]</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        MoleFractions <span class="op">=</span> scipy.optimize.least_squares(<span class="va">self</span>.F,guess)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convergance <span class="op">=</span> MoleFractions.success</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.x1, <span class="va">self</span>.y1 <span class="op">=</span> MoleFractions.x</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span>(<span class="dv">0</span> <span class="op">&lt;=</span> (<span class="va">self</span>.x1 <span class="kw">or</span> <span class="va">self</span>.y1) <span class="op">&lt;=</span> <span class="dv">1</span>):</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.x1, <span class="va">self</span>.y1 <span class="op">=</span> np.nan, np.nan</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [np.nan, np.nan]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> np.<span class="bu">round</span>((<span class="va">self</span>.x1<span class="op">+</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>)<span class="op">/</span>(<span class="va">self</span>.y1<span class="op">+</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>),<span class="dv">4</span>) <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [np.nan, np.nan]</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> MoleFractions.x</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> F(<span class="va">self</span>,z):</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> z[<span class="dv">0</span>]</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        y1 <span class="op">=</span> z[<span class="dv">1</span>]</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        x2 <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> x1</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        y2 <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> y1</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        P <span class="op">=</span> <span class="va">self</span>.P</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> <span class="va">self</span>.T</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        R <span class="op">=</span> <span class="fl">0.083144626</span> <span class="co">#(mL*psi)/(mol*K)</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        aa1 <span class="op">=</span> <span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        aa2 <span class="op">=</span> <span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        aL <span class="op">=</span> <span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span>x1<span class="op">**</span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span><span class="op">*</span>x1<span class="op">*</span>x2<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.alpha)<span class="op">+</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha<span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        aV <span class="op">=</span> <span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span>y1<span class="op">**</span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span><span class="op">*</span>y1<span class="op">*</span>y2<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.alpha)<span class="op">+</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha<span class="op">*</span>y2<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        bL <span class="op">=</span> x1<span class="op">*</span><span class="va">self</span>.component1.b<span class="op">+</span>x2<span class="op">*</span><span class="va">self</span>.component2.b</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        bV <span class="op">=</span> y1<span class="op">*</span><span class="va">self</span>.component1.b<span class="op">+</span>y2<span class="op">*</span><span class="va">self</span>.component2.b</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        AL <span class="op">=</span> (aL<span class="op">*</span>P)<span class="op">/</span>(R<span class="op">**</span><span class="dv">2</span><span class="op">*</span>T<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        BL <span class="op">=</span> (bL<span class="op">*</span>P)<span class="op">/</span>(R<span class="op">*</span>T)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        AV <span class="op">=</span> (aV<span class="op">*</span>P)<span class="op">/</span>(R<span class="op">**</span><span class="dv">2</span><span class="op">*</span>T<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        BV <span class="op">=</span> (bV<span class="op">*</span>P)<span class="op">/</span>(R<span class="op">*</span>T)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        ZV <span class="op">=</span> PengRobinsonCubic(AV,BV)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        ZL <span class="op">=</span> PengRobinsonCubic(AL,BL)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ZV, <span class="va">self</span>.ZL <span class="op">=</span> ZV, ZL</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        term1L <span class="op">=</span> <span class="op">-</span>np.log(ZL<span class="op">-</span>BL)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        term2L1 <span class="op">=</span> (ZL<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.component1.b<span class="op">/</span>bL</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        term2L2 <span class="op">=</span> (ZL<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.component2.b<span class="op">/</span>bL</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        term3L <span class="op">=</span> (AL<span class="op">/</span>(BL<span class="op">*</span>np.sqrt(<span class="dv">8</span>)))<span class="op">*</span>np.log((ZL<span class="op">+</span>BL<span class="op">*</span>(np.sqrt(<span class="dv">2</span>)<span class="op">+</span><span class="dv">1</span>))<span class="op">/</span>(ZL<span class="op">-</span>BL<span class="op">*</span>(np.sqrt(<span class="dv">2</span>)<span class="op">-</span><span class="dv">1</span>)))</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        term3L1 <span class="op">=</span> (<span class="dv">2</span><span class="op">/</span>aL)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>x1)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha))<span class="op">+</span>x1<span class="op">*</span><span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha)<span class="op">-</span><span class="va">self</span>.component1.b<span class="op">/</span>bL</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>        term3L2 <span class="op">=</span> (<span class="dv">2</span><span class="op">/</span>aL)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>x2)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha))<span class="op">+</span>x2<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha)<span class="op">-</span><span class="va">self</span>.component2.b<span class="op">/</span>bL</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        fugL1 <span class="op">=</span> np.exp(term1L <span class="op">+</span> term2L1 <span class="op">-</span> term3L<span class="op">*</span>term3L1)</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>        fugL2 <span class="op">=</span> np.exp(term1L <span class="op">+</span> term2L2 <span class="op">-</span> term3L<span class="op">*</span>term3L2)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        term1V <span class="op">=</span> <span class="op">-</span>np.log(ZV<span class="op">-</span>BV)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        term2V1 <span class="op">=</span> (ZV<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.component1.b<span class="op">/</span>bV</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        term2V2 <span class="op">=</span> (ZV<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.component2.b<span class="op">/</span>bV</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        term3V <span class="op">=</span> (AV<span class="op">/</span>(BV<span class="op">*</span>np.sqrt(<span class="dv">8</span>)))<span class="op">*</span>np.log((ZV<span class="op">+</span>BV<span class="op">*</span>(np.sqrt(<span class="dv">2</span>)<span class="op">+</span><span class="dv">1</span>))<span class="op">/</span>(ZV<span class="op">-</span>BV<span class="op">*</span>(np.sqrt(<span class="dv">2</span>)<span class="op">-</span><span class="dv">1</span>)))</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>        term3V1 <span class="op">=</span> (<span class="dv">2</span><span class="op">/</span>aV)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>y1)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha))<span class="op">+</span>y1<span class="op">*</span><span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha)<span class="op">-</span><span class="va">self</span>.component1.b<span class="op">/</span>bV</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>        term3V2 <span class="op">=</span> (<span class="dv">2</span><span class="op">/</span>aV)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>y2)<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.k)<span class="op">*</span>np.sqrt(<span class="va">self</span>.component1.a<span class="op">*</span><span class="va">self</span>.component1.alpha<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha))<span class="op">+</span>y2<span class="op">*</span><span class="va">self</span>.component2.a<span class="op">*</span><span class="va">self</span>.component2.alpha)<span class="op">-</span><span class="va">self</span>.component2.b<span class="op">/</span>bV</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>        fugV1 <span class="op">=</span> np.exp(term1V <span class="op">+</span> term2V1 <span class="op">-</span> term3V<span class="op">*</span>term3V1)</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>        fugV2 <span class="op">=</span> np.exp(term1V <span class="op">+</span> term2V2 <span class="op">-</span> term3V<span class="op">*</span>term3V2)</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fugL1, <span class="va">self</span>.fugL2, <span class="va">self</span>.fugV1, <span class="va">self</span>.fugV2 <span class="op">=</span> fugL1, fugL2, fugV1, fugV2</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>        Left <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">0</span>,fugL1,<span class="dv">0</span>],[<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,fugL2],[<span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span>fugV1,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="op">-</span>fugV2]])</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>        Right <span class="op">=</span> np.array([<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>])</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        Solution <span class="op">=</span> np.array(Right.dot(inv(Left)))</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">1000</span><span class="op">*</span>(Solution[<span class="dv">0</span>]<span class="op">-</span>x1))<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (<span class="dv">1000</span><span class="op">*</span>(Solution[<span class="dv">2</span>]<span class="op">-</span>y1))<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>        </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To actually use the Peng-Robinson EOS, we need to know 3 properties of each component: * Critical Temperature * Critical Pressure * <a href="https://en.wikipedia.org/wiki/Acentric_factor">Acentric Factor</a> (which can be derived from the boiling point, commonly written with the greek letter omega)</p>
+<p>Critical properties can be obtained from <a href="https://webbook.nist.gov/chemistry/">NIST</a> or other resources.</p>
+<p>As an example, let’s look at a binary system with carbon dioxide and ethanol at 5 bar and 40C</p>
+<div id="cell-12" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>CO2 <span class="op">=</span> component(Tc<span class="op">=</span><span class="fl">304.2</span>, Pc<span class="op">=</span><span class="fl">73.80</span>, omega<span class="op">=</span><span class="fl">0.228</span>, kappa1 <span class="op">=</span> <span class="fl">0.04285</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Ethanol <span class="op">=</span> component(Tc<span class="op">=</span><span class="dv">514</span>, Pc<span class="op">=</span><span class="dv">63</span>, omega<span class="op">=</span><span class="fl">.644</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>myMixture <span class="op">=</span> mixture(CO2,Ethanol,k<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>myMixture.setMixtureConditions(P<span class="op">=</span><span class="dv">5</span>, T<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>[LiquidMoleFractionCO2, VaporMoleFractionCO2] <span class="op">=</span> myMixture.solveMoleFractions()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'The liquid mole fraction of CO2 is </span><span class="sc">{</span>LiquidMoleFractionCO2<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'The vapor mole fraction of CO2 is </span><span class="sc">{</span>VaporMoleFractionCO2<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The liquid mole fraction of CO2 is 0.06402955460122187
+The vapor mole fraction of CO2 is 0.9678388087613046</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\NG\Anaconda3\lib\site-packages\ipykernel_launcher.py:69: RuntimeWarning: invalid value encountered in log
+C:\Users\NG\Anaconda3\lib\site-packages\ipykernel_launcher.py:72: RuntimeWarning: invalid value encountered in log</code></pre>
+</div>
+</div>
+<p>So we’ve done the special case of one temperature and one pressure, let’s work it out across a range. Let’s look at temepratures between 0C and 100C, and pressures between 0 barg and 10 barg, and put those data in a pandas dataframe.</p>
+<div id="cell-14" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>numSteps <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Tmin <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Tmax <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>Pmin <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Pmax <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>setup <span class="op">=</span> [[Temp, Pressure]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> Temp <span class="kw">in</span> np.linspace(Tmin, Tmax, num<span class="op">=</span>numSteps)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> Pressure <span class="kw">in</span> np.linspace(Pmin, Pmax, num<span class="op">=</span>numSteps)]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>setup, columns<span class="op">=</span>[<span class="st">'Temperature (C)'</span>,<span class="st">'Pressure (Barg)'</span>])</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'x1'</span>] <span class="op">=</span> <span class="st">''</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'y1'</span>] <span class="op">=</span> <span class="st">''</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Temperature (C)</th>
+<th data-quarto-table-cell-role="th">Pressure (Barg)</th>
+<th data-quarto-table-cell-role="th">x1</th>
+<th data-quarto-table-cell-role="th">y1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0.0</td>
+<td>0.0</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0.0</td>
+<td>1.0</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.0</td>
+<td>2.0</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>0.0</td>
+<td>3.0</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>0.0</td>
+<td>4.0</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>It’s at this point the way the classes are set up doesn’t lend itself well to vectorizing the problem. If we could vectorize it, it would be very fast; but a fleeting attempt to modify it showed it to be challenging. For what I’m trying to accomplish here, time isn’t critical and the time it would take to allow vectorization is several orders of magnitude higher than how long it takes the script to run.</p>
+<p>So we’ll loop through each combination of Temperature and Pressure and return the mole fractions of CO2.</p>
+<div id="cell-16" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> np.arange(<span class="bu">len</span>(dfMoleFractionData)):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    myMixture.setMixtureConditions(dfMoleFractionData[<span class="st">'Pressure (Barg)'</span>].iloc[i],dfMoleFractionData[<span class="st">'Temperature (C)'</span>].iloc[i])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    dfMoleFractionData[<span class="st">'x1'</span>].iloc[i], dfMoleFractionData[<span class="st">'y1'</span>].iloc[i] <span class="op">=</span> myMixture.solveMoleFractions()</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'x2'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> dfMoleFractionData[<span class="st">'x1'</span>]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'y2'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> dfMoleFractionData[<span class="st">'y1'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\NG\Anaconda3\lib\site-packages\pandas\core\indexing.py:189: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self._setitem_with_indexer(indexer, value)
+C:\Users\NG\Anaconda3\lib\site-packages\ipykernel_launcher.py:69: RuntimeWarning: invalid value encountered in log
+C:\Users\NG\Anaconda3\lib\site-packages\ipykernel_launcher.py:72: RuntimeWarning: invalid value encountered in log</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Wall time: 15.2 s</code></pre>
+</div>
+</div>
+<div id="cell-17" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData.tail(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Temperature (C)</th>
+<th data-quarto-table-cell-role="th">Pressure (Barg)</th>
+<th data-quarto-table-cell-role="th">x1</th>
+<th data-quarto-table-cell-role="th">y1</th>
+<th data-quarto-table-cell-role="th">x2</th>
+<th data-quarto-table-cell-role="th">y2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">111</th>
+<td>100.0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">112</th>
+<td>100.0</td>
+<td>2.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">113</th>
+<td>100.0</td>
+<td>3.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">114</th>
+<td>100.0</td>
+<td>4.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">115</th>
+<td>100.0</td>
+<td>5.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">116</th>
+<td>100.0</td>
+<td>6.0</td>
+<td>0.0264851</td>
+<td>0.655533</td>
+<td>0.973515</td>
+<td>0.344467</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">117</th>
+<td>100.0</td>
+<td>7.0</td>
+<td>0.0320651</td>
+<td>0.695766</td>
+<td>0.967935</td>
+<td>0.304234</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">118</th>
+<td>100.0</td>
+<td>8.0</td>
+<td>0.0376319</td>
+<td>0.727079</td>
+<td>0.962368</td>
+<td>0.272921</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">119</th>
+<td>100.0</td>
+<td>9.0</td>
+<td>0.0431858</td>
+<td>0.752134</td>
+<td>0.956814</td>
+<td>0.247866</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">120</th>
+<td>100.0</td>
+<td>10.0</td>
+<td>0.0487268</td>
+<td>0.772629</td>
+<td>0.951273</td>
+<td>0.227371</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>It’s also a good idea to plot the data to make sure it looks reasonable. We’re also going to remove the numbers where Peng-Robinson didn’t converge.</p>
+<div id="cell-19" class="cell" data-scrolled="false" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> dfMoleFractionData.columns:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    dfMoleFractionData[column] <span class="op">=</span> pd.to_numeric(dfMoleFractionData[column], errors <span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>PlotWidth <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> Condition1, Condition2 <span class="kw">in</span> [<span class="st">'Pressure (Barg)'</span>, <span class="st">'Temperature (C)'</span>], [<span class="st">'Temperature (C)'</span>, <span class="st">'Pressure (Barg)'</span>]:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> MoleFraction <span class="kw">in</span> [<span class="st">'x1'</span>, <span class="st">'y1'</span>]:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        plt.figure(figsize<span class="op">=</span>(PlotWidth,PlotWidth))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        plt.ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(x<span class="op">=</span>Condition1, y<span class="op">=</span>MoleFraction, data<span class="op">=</span>dfMoleFractionData, hue<span class="op">=</span>Condition2)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="ss">f'</span><span class="sc">{</span>MoleFraction<span class="sc">}</span><span class="ss"> vs. </span><span class="sc">{</span>Condition1<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>), loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-10-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-10-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Which looks reasonable.</p>
+<p>So that was a lot of work to get vapor and liquid mole fractions. We can bypass using Peng-Robinson by fitting a Neural Netork model to the output and just using the results of that. We’re building a model on a model, which has problems; but could be computationally time-saving in a down stream application.</p>
+<p>First we need to scale the Temperature and Pressure to be on a scale of 0 to 1, otherwise the scikit-learn libraries won’t work properly on them. There are built in functions to do that, but for the sake of demonstration I wrote my own.</p>
+<div id="cell-22" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ScaleTheThing(unscaled):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    scaled <span class="op">=</span> (unscaled <span class="op">-</span> unscaled.<span class="bu">min</span>()) <span class="op">/</span> (unscaled.<span class="bu">max</span>() <span class="op">-</span> unscaled.<span class="bu">min</span>())</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scaled</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> UnScaleTheThing(scaled, unscaled):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    unscaled <span class="op">=</span> scaled <span class="op">*</span> (unscaled.<span class="bu">max</span>() <span class="op">-</span> unscaled.<span class="bu">min</span>()) <span class="op">+</span> unscaled.<span class="bu">min</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> unscaled</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now we can set up an MLPRegressor for both the liquid and the vapor. I’m not going to tune the hyperparemeters here and just leave them at the default values.</p>
+<div id="cell-24" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>myLiquidNN <span class="op">=</span> MLPRegressor(solver<span class="op">=</span><span class="st">'lbfgs'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>myVaporNN <span class="op">=</span> MLPRegressor(solver<span class="op">=</span><span class="st">'lbfgs'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>X_unscaled <span class="op">=</span> dfMoleFractionData[[<span class="st">'Temperature (C)'</span>, <span class="st">'Pressure (Barg)'</span>]]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> ScaleTheThing(X_unscaled)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>LiquidMoleFraction <span class="op">=</span> ScaleTheThing(dfMoleFractionData[<span class="st">'x1'</span>])</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>VaporMoleFraction <span class="op">=</span> ScaleTheThing(dfMoleFractionData[<span class="st">'y1'</span>])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>myLiquidNN.fit(X<span class="op">=</span>X, y<span class="op">=</span>LiquidMoleFraction)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>myVaporNN.fit(X<span class="op">=</span>X, y<span class="op">=</span>VaporMoleFraction)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Liquid Score: </span><span class="sc">{</span>myLiquidNN<span class="sc">.</span>score(X, LiquidMoleFraction)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Vapor Score: </span><span class="sc">{</span>myVaporNN<span class="sc">.</span>score(X, VaporMoleFraction)<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Liquid Score: 0.9996924476701617
+Vapor Score: 0.9989100570730125</code></pre>
+</div>
+</div>
+<p>Both give strong r^2 values, but once again it’s wise to plot it.</p>
+<div id="cell-27" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(x<span class="op">=</span>myLiquidNN.predict(X),y<span class="op">=</span>LiquidMoleFraction)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted x1'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Peng-Robinson x1'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Peng-Robinson vs. Predicted x1 values'</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(PlotWidth, PlotWidth))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>plt.scatter(x<span class="op">=</span>myVaporNN.predict(X),y<span class="op">=</span>VaporMoleFraction)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted y1'</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Peng-Robinson y1'</span>)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Peng-Robinson vs. Predicted y1 values'</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ThermodynamicEquationsOfState_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally let’s put the predicted values back in our DataFrame</p>
+<div id="cell-29" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'Predicted x1'</span>] <span class="op">=</span> myLiquidNN.predict(X)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dfMoleFractionData[<span class="st">'Predicted y1'</span>] <span class="op">=</span> myVaporNN.predict(X)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>display(dfMoleFractionData.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Temperature (C)</th>
+<th data-quarto-table-cell-role="th">Pressure (Barg)</th>
+<th data-quarto-table-cell-role="th">x1</th>
+<th data-quarto-table-cell-role="th">y1</th>
+<th data-quarto-table-cell-role="th">x2</th>
+<th data-quarto-table-cell-role="th">y2</th>
+<th data-quarto-table-cell-role="th">Predicted x1</th>
+<th data-quarto-table-cell-role="th">Predicted y1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>10.0</td>
+<td>5.0</td>
+<td>0.111839</td>
+<td>0.994675</td>
+<td>0.888161</td>
+<td>0.005325</td>
+<td>0.474844</td>
+<td>0.997009</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>10.0</td>
+<td>6.0</td>
+<td>0.130713</td>
+<td>0.995390</td>
+<td>0.869287</td>
+<td>0.004610</td>
+<td>0.576207</td>
+<td>0.997782</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>10.0</td>
+<td>7.0</td>
+<td>0.149660</td>
+<td>0.995925</td>
+<td>0.850340</td>
+<td>0.004075</td>
+<td>0.682564</td>
+<td>0.998438</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>10.0</td>
+<td>8.0</td>
+<td>0.168688</td>
+<td>0.996342</td>
+<td>0.831312</td>
+<td>0.003658</td>
+<td>0.790976</td>
+<td>1.002285</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>10.0</td>
+<td>9.0</td>
+<td>0.187807</td>
+<td>0.996676</td>
+<td>0.812193</td>
+<td>0.003324</td>
+<td>0.893190</td>
+<td>1.009951</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>10.0</td>
+<td>10.0</td>
+<td>0.207029</td>
+<td>0.996948</td>
+<td>0.792971</td>
+<td>0.003052</td>
+<td>0.992390</td>
+<td>1.017616</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>20.0</td>
+<td>2.0</td>
+<td>0.045347</td>
+<td>0.980226</td>
+<td>0.954653</td>
+<td>0.019774</td>
+<td>0.116246</td>
+<td>0.945880</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>20.0</td>
+<td>3.0</td>
+<td>0.060692</td>
+<td>0.984993</td>
+<td>0.939308</td>
+<td>0.015007</td>
+<td>0.189271</td>
+<td>0.958627</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>20.0</td>
+<td>4.0</td>
+<td>0.076043</td>
+<td>0.987856</td>
+<td>0.923957</td>
+<td>0.012144</td>
+<td>0.275097</td>
+<td>0.968258</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>20.0</td>
+<td>5.0</td>
+<td>0.091403</td>
+<td>0.989765</td>
+<td>0.908597</td>
+<td>0.010235</td>
+<td>0.365018</td>
+<td>0.977960</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>From here, one could iterate over the Tc, Pc, Acentric Factor for any 2-component system at a range of temperatures and pressures.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><span id="copyright"></span></p>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("copyright").innerHTML =
+    "© 2020-" + new Date().getFullYear() +
+    " Nick Gould - All Rights Reserved.";
+});
+</script>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
