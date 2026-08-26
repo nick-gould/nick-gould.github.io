@@ -207,7 +207,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#attention" id="toc-attention" class="nav-link active" data-scroll-target="#attention">Attention</a></li>
+  <li><a href="#ohms-law" id="toc-ohms-law" class="nav-link" data-scroll-target="#ohms-law">Ohm’s Law</a>
+  <ul class="collapse">
+  <li><a href="#terminology" id="toc-terminology" class="nav-link" data-scroll-target="#terminology">Terminology</a></li>
+  </ul></li>
   <li><a href="#electrochemical-impedance-spectroscopy" id="toc-electrochemical-impedance-spectroscopy" class="nav-link" data-scroll-target="#electrochemical-impedance-spectroscopy">Electrochemical Impedance Spectroscopy</a>
+  <ul class="collapse">
+  <li><a href="#why-does-eis-work" id="toc-why-does-eis-work" class="nav-link" data-scroll-target="#why-does-eis-work">Why does EIS work?</a></li>
+  </ul></li>
+  <li><a href="#impedance-model" id="toc-impedance-model" class="nav-link" data-scroll-target="#impedance-model">Impedance Model</a>
   <ul class="collapse">
   <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
   </ul></li>
@@ -272,11 +280,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <p>First we need to import a couple libraries:</p>
-<div id="cell-4" class="cell" data-execution_count="1">
+<div id="cell-4" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="ohms-law" class="level2">
+<h2 class="anchored" data-anchor-id="ohms-law">Ohm’s Law</h2>
+<ul>
+<li>Much of battery chemistry is applying Ohm’s Law, where the value for resistance is determined by the build of the cell. Ohm’s Law can be written as:
+<ul>
+<li>Change in Voltage = (Change in Current) x Resistance</li>
+</ul></li>
+</ul>
+<section id="terminology" class="level3">
+<h3 class="anchored" data-anchor-id="terminology">Terminology</h3>
+<ul>
+<li>A <strong>Transfer Function</strong> is</li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</section>
 </section>
 <section id="electrochemical-impedance-spectroscopy" class="level2">
 <h2 class="anchored" data-anchor-id="electrochemical-impedance-spectroscopy">Electrochemical Impedance Spectroscopy</h2>
@@ -286,12 +314,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The short explanation is an equivalent circuit is set up with several individual circuit elements and the liberal application of <a href="https://en.wikipedia.org/wiki/Ohm%27s_law">Ohm’s Law</a> and worked up using either Laplace Transformations (as I do here) or Fourier Transformations (a special case of Laplace Transformations and how most EIS literature does it). The impedance response is a complex number.</p>
 <p>The advantage to doing it in the frequency domain is all the math is algebra and all the complicated dynamics of the differential equations are removed by the transform. Working with the data as Laplace Transforms also allows (usually) convenient conversion between frequency and time domains.</p>
 <p>A <a href="https://www.gamry.com/potentiostats/interface-1010e-potentiostat/">Gamry Interface 1010E Potentiostat</a> (the machine I’m most familiar with) has a range of 2 MHz to 10 μHz. Low frequencies take a long time to run in practice, but may be necessary to probe things like diffusion.</p>
-<p>Here I’m going to: * Set up Python classes for common circuit elements * Set up a Python class for an Equivalent Circuit made of of those individual elements * Plot Nyquist and Bode diagrams for example data * Return those data as a pandas dataframe</p>
+<section id="why-does-eis-work" class="level3">
+<h3 class="anchored" data-anchor-id="why-does-eis-work">Why does EIS work?</h3>
+<p>EIS performs a small pertubation and linearizes around a fixed DC operating point. The</p>
+</section>
+</section>
+<section id="impedance-model" class="level2">
+<h2 class="anchored" data-anchor-id="impedance-model">Impedance Model</h2>
+<p>The one substantive omission is linearity / small-signal. The draft never states why EIS works: the cell’s I–V behavior is nonlinear (Butler–Volmer, Nernst, diffusion), so EIS applies a small perturbation and linearizes around a fixed DC operating point. That local-linearity + time-invariance (LTI) assumption is the entire foundation — it’s why the algebra-only frequency-domain treatment is valid, it’s what Kramers–Kronig checks, and it’s the hinge for the SOC discussion below. I’d add a short paragraph on it.</p>
+<p>Two smaller ones:</p>
+<p>You describe EIS as “introducing unit impulses at a range of frequencies.” Classic single-sine EIS applies a sinusoid at each frequency and measures the steady-state response; broadband/FFT-EIS applies one wideband signal (step/multisine/noise) and transforms. An impulse contains all frequencies at once, so “impulse at a range of frequencies” mixes the two pictures. From a systems view calling Z(jω) the impulse response’s transform is defensible, but for readers it’s worth separating “what the math is” from “what the instrument does.” The PDF’s “battery chemistry is applying Ohm’s Law over and over” oversimplifies — only the ohmic overpotential is truly Ohm’s law; activation and concentration overpotentials aren’t. Your differential phrasing “ΔV = ΔI × R” is actually the better framing (it’s the small-signal differential resistance EIS measures), so I’d lean into that and drop the “over and over” line.</p>
+<p>The Laplace / SOC-as-time section, and where the literature actually is</p>
+<p>Now that I can see the actual derivation, it’s clearer than my guess last time. You’re not really doing an inverse Laplace over an SOC axis — you’re taking the already-inverse-transformed time-domain step responses (the √t Warburg, etc.) and mapping physical time to SOC via t = 3600x/C. That’s a reasonable modeling move, but I’d retire the “do an Inverse Laplace Transform to see how each element evolves over SOC” phrasing, because it oversells what’s happening and is the sentence a reviewer will pounce on.</p>
+<p>There are also two physics limits to state honestly, since you want rigor:</p>
+<p>The Warburg √t term is the semi-infinite diffusion response. It only holds until the diffusion layer reaches the finite electrode dimension; after that you’re in finite-length (bounded) Warburg territory and the √t law breaks. So your model is an early-discharge / short-time approximation, and it’s worth saying so.</p>
+<p>And using small-signal EIS parameters (R, W) to predict a full large-signal discharge is exactly the LTI extrapolation from the linearity point above. Freezing R and W as constants also contradicts the rest of the deck, whose premise is that they evolve with SOC.</p>
+<p>None of that kills the idea — it just bounds it. For grounding it in real literature, the established frameworks this connects to (search terms, since I can’t pull citations here):</p>
+<p>Distribution of Relaxation Times (DRT) — the rigorous, literature-heavy way to turn a spectrum into a time-constant spectrum without committing to a circuit topology. Peukert’s law and rate-capability / diffusion-limited capacity models — your “capacity vs C-rate from a diffusion term” is essentially a physics-based Peukert relation; this is where to anchor the capacity result. Single-Particle Model (SPM) and Doyle–Fuller–Newman (DFN / P2D) — the standard physics-based discharge models; your expression reads as a stripped-down SPM. Operando / dynamic EIS and time-varying (LPV) impedance — for the honest “SOC drifts during measurement, so LTI breaks” case. Kramers–Kronig validation — cite this as your stationarity/linearity check.</p>
+<p>If you frame the SOC extension as “a deliberately simple diffusion-limited toy model, valid in the short-time semi-infinite regime, that recovers a Peukert-like capacity–rate relation,” it’ll stand up fine — the rigor comes from stating the assumptions, not from claiming more than the model does.</p>
 <p>Next let’s define the frequency range from 10 μHz to 0.1 MHz:</p>
-<div id="cell-7" class="cell" data-execution_count="2">
+<p>Here I’m going to: * Set up Python classes for common circuit elements * Set up a Python class for an Equivalent Circuit made of of those individual elements * Plot Nyquist and Bode diagrams for example data * Return those data as a pandas dataframe</p>
+<div id="cell-9" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>myFrequencies <span class="op">=</span> np.logspace(<span class="dv">5</span>,<span class="op">-</span><span class="dv">5</span>,num<span class="op">=</span><span class="dv">101</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>myFrequencies</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([1.00000000e+05, 7.94328235e+04, 6.30957344e+04, 5.01187234e+04,
        3.98107171e+04, 3.16227766e+04, 2.51188643e+04, 1.99526231e+04,
        1.58489319e+04, 1.25892541e+04, 1.00000000e+04, 7.94328235e+03,
@@ -323,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now classes for the following circuit elements: * Resistors * Capacitors * Inductors * Resistor-Capacity (RC) units * Warburg elements (diffusion) * Constant Phase Elements (diffusion at an interface)</p>
 <p>For each class, there are 3 methods: * A constructor, where the physical characteristics are assigned (like resistance or capacitance) * An impulse, as if we ran that element through a range of frequencies and measured the impedance * The voltage change response that element would have in voltage to a step-change in current</p>
 <p>I’m not going to demonstrate the current step here, but it’s available.</p>
-<div id="cell-9" class="cell" data-execution_count="3">
+<div id="cell-11" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Resistor:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, R):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ImpulseSet <span class="op">=</span> <span class="va">False</span></span>
@@ -443,7 +489,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.V <span class="op">=</span> i<span class="op">*</span><span class="va">self</span>.R <span class="op">-</span> i<span class="op">*</span><span class="va">self</span>.R<span class="op">*</span>np.exp(<span class="op">-</span>t<span class="op">/</span><span class="va">self</span>.Tau)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The Equivalent Circuit class then has the following methods: * A contructor * A way to set the impulse frequencies for the entire equivalent circuit * A way to add elements in both series and parallel * A way to plot Nyquist Diagrams, Bode Diagrams, or both * A way to return the data as a pandas dataframe, for further data manipulation</p>
-<div id="cell-11" class="cell" data-execution_count="4">
+<div id="cell-13" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EquivalentCircuit():</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ElementTypes <span class="op">=</span> (Resistor, Capacitor, RC, Warburg, ConstantPhaseElement, Randles)</span>
@@ -452,94 +498,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> setImpulseFrequencies(<span class="va">self</span>, Frequencies):</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Frequencies <span class="op">=</span> Frequencies</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> addSeriesElement(<span class="va">self</span>, <span class="op">*</span>elements):</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> element <span class="kw">in</span> elements:</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(element, <span class="va">self</span>.ElementTypes):</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                element.impulse(<span class="va">self</span>.Frequencies <span class="op">*</span> <span class="ot">1j</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.Z <span class="op">+=</span> element.Z</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(element, EquivalentCircuit):</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.Z <span class="op">+=</span> elementZ</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f'</span><span class="sc">{</span>element<span class="sc">}</span><span class="ss"> is not a circuit element'</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__BodeTerms__()</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> addParallelElement(<span class="va">self</span>, <span class="op">*</span>elements):</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        invZ <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> element <span class="kw">in</span> elements:</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(element, <span class="va">self</span>.ElementTypes):</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                element.impulse(<span class="va">self</span>.Frequencies <span class="op">*</span> <span class="ot">1j</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                invZ <span class="op">+=</span> <span class="dv">1</span><span class="op">/</span>element.Z</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(element, EquivalentCircuit):</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                invZ <span class="op">+=</span> <span class="dv">1</span><span class="op">/</span>element.Z</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f'</span><span class="sc">{</span>element<span class="sc">}</span><span class="ss"> is not a circuit element'</span>)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Z <span class="op">=</span>  <span class="dv">1</span> <span class="op">/</span> invZ</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> __BodeTerms__(<span class="va">self</span>):</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.magnitude <span class="op">=</span> <span class="dv">20</span><span class="op">*</span>np.log10(np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.phase <span class="op">=</span> np.arctan(np.imag(<span class="va">self</span>.Z)<span class="op">/</span>np.real(<span class="va">self</span>.Z))<span class="op">*</span><span class="dv">180</span><span class="op">/</span>np.pi</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotNyquist(<span class="va">self</span>):</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        plt.figure(figsize<span class="op">=</span>(<span class="va">self</span>.PlotWidth, <span class="va">self</span>.PlotWidth))</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        plt.plot(np.real(<span class="va">self</span>.Z), <span class="op">-</span>np.imag(<span class="va">self</span>.Z))</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        maxValue <span class="op">=</span> <span class="fl">1.05</span> <span class="op">*</span> np.maximum(np.<span class="bu">max</span>(np.<span class="bu">abs</span>(np.real(<span class="va">self</span>.Z))), np.<span class="bu">max</span>(np.<span class="bu">abs</span>(np.imag(<span class="va">self</span>.Z))))</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        plt.xlabel(<span class="st">'Z real'</span>)</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        plt.ylabel(<span class="st">'-Z imag'</span>)</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        plt.xlim(<span class="dv">0</span>, maxValue)</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        plt.ylim(<span class="dv">0</span>, maxValue)</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        plt.grid()</span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Nyquist Diagram'</span>)</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotBode(<span class="va">self</span>):</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        f, (BodeMagnitudePlot, BodePhasePlot) <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        f.set_size_inches((<span class="va">self</span>.PlotWidth, <span class="va">self</span>.PlotWidth))</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_title(<span class="st">'Bode Diagram'</span>)</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.semilogx(<span class="va">self</span>.Frequencies, <span class="va">self</span>.magnitude)</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_xlabel(<span class="st">'Frequency (Hz)'</span>)</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_ylabel(<span class="st">'Magnitude (dB)'</span>)</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_ylim(<span class="dv">0</span>,<span class="fl">1.05</span><span class="op">*</span>np.<span class="bu">max</span>(<span class="va">self</span>.magnitude))</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.grid()</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.semilogx(<span class="va">self</span>.Frequencies, <span class="op">-</span><span class="va">self</span>.phase)</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_xlabel(<span class="st">'Frequency (Hz)'</span>)</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_ylabel(<span class="st">'-Phase (degrees)'</span>)</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_ylim(<span class="op">-</span><span class="dv">90</span>,<span class="dv">90</span>)</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.grid()</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_yticks(np.linspace(<span class="op">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">13</span>))</span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotAll(<span class="va">self</span>):</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.plotNyquist()</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.plotBode()</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_dataframe(<span class="va">self</span>):</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>        cols <span class="op">=</span> [<span class="st">'Frequency (Hz)'</span>, <span class="st">'Z (Ohms)'</span>, <span class="st">'Zreal'</span>, <span class="st">'Zimag'</span>, <span class="st">'Radius (Ohms)'</span>, <span class="st">'Magnitude (dB)'</span>, <span class="st">'Phase (degrees)'</span>]</span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>cols)</span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Frequency (Hz)'</span>] <span class="op">=</span> <span class="va">self</span>.Frequencies</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Z (Ohms)'</span>] <span class="op">=</span> <span class="va">self</span>.Z</span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Zreal'</span>] <span class="op">=</span> np.real(<span class="va">self</span>.Z)</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Zimag'</span>] <span class="op">=</span> np.imag(<span class="va">self</span>.Z)</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Radius (Ohms)'</span>] <span class="op">=</span> np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Magnitude (dB)'</span>] <span class="op">=</span> <span class="dv">20</span><span class="op">*</span>np.log10(np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Phase (degrees)'</span>] <span class="op">=</span> np.arctan(np.imag(<span class="va">self</span>.Z)<span class="op">/</span>np.real(<span class="va">self</span>.Z))<span class="op">*</span><span class="dv">180</span><span class="op">/</span>np.pi</span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df <span class="op">=</span> df</span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.omega <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> np.array(Frequencies)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> addSeriesElement(<span class="va">self</span>, <span class="op">*</span>elements):</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> element <span class="kw">in</span> elements:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(element, <span class="va">self</span>.ElementTypes):</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                element.impulse(<span class="va">self</span>.omega <span class="op">*</span> <span class="ot">1j</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.Z <span class="op">+=</span> element.Z</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(element, EquivalentCircuit):</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.Z <span class="op">+=</span> element.Z</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f'</span><span class="sc">{</span>element<span class="sc">}</span><span class="ss"> is not a circuit element'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__BodeTerms__()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> addParallelElement(<span class="va">self</span>, <span class="op">*</span>elements):</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        invZ <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> element <span class="kw">in</span> elements:</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(element, <span class="va">self</span>.ElementTypes):</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                element.impulse(<span class="va">self</span>.omega <span class="op">*</span> <span class="ot">1j</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                invZ <span class="op">+=</span> <span class="dv">1</span><span class="op">/</span>element.Z</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(element, EquivalentCircuit):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>                invZ <span class="op">+=</span> <span class="dv">1</span><span class="op">/</span>element.Z</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f'</span><span class="sc">{</span>element<span class="sc">}</span><span class="ss"> is not a circuit element'</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Z <span class="op">=</span>  <span class="dv">1</span> <span class="op">/</span> invZ</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__BodeTerms__()</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> __BodeTerms__(<span class="va">self</span>):</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.magnitude <span class="op">=</span> np.log10(np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.phase <span class="op">=</span> np.arctan2(np.imag(<span class="va">self</span>.Z), np.real(<span class="va">self</span>.Z))<span class="op">*</span><span class="dv">180</span><span class="op">/</span>np.pi</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotNyquist(<span class="va">self</span>):</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        plt.figure(figsize<span class="op">=</span>(<span class="va">self</span>.PlotWidth, <span class="va">self</span>.PlotWidth))</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        plt.plot(np.real(<span class="va">self</span>.Z), <span class="op">-</span>np.imag(<span class="va">self</span>.Z))</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        maxValue <span class="op">=</span> <span class="fl">1.05</span> <span class="op">*</span> np.maximum(np.<span class="bu">max</span>(np.<span class="bu">abs</span>(np.real(<span class="va">self</span>.Z))), np.<span class="bu">max</span>(np.<span class="bu">abs</span>(np.imag(<span class="va">self</span>.Z))))</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        plt.xlabel(<span class="st">'Z real'</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        plt.ylabel(<span class="st">'-Z imag'</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        plt.xlim(<span class="dv">0</span>, maxValue)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        plt.ylim(<span class="dv">0</span>, maxValue)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        plt.grid()</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Nyquist Diagram'</span>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotBode(<span class="va">self</span>):</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        f, (BodeMagnitudePlot, BodePhasePlot) <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        f.set_size_inches((<span class="va">self</span>.PlotWidth, <span class="va">self</span>.PlotWidth))</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_title(<span class="st">'Bode Diagram'</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.semilogx(<span class="va">self</span>.Frequencies, <span class="va">self</span>.magnitude)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_xlabel(<span class="st">'Frequency (Hz)'</span>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_ylabel(<span class="st">'log |Z|'</span>)</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># BodeMagnitudePlot.set_ylabel('Magnitude (dB)')</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.set_ylim(<span class="dv">0</span>,<span class="fl">1.05</span><span class="op">*</span>np.<span class="bu">max</span>(<span class="va">self</span>.magnitude))</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        BodeMagnitudePlot.grid()</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.semilogx(<span class="va">self</span>.Frequencies, <span class="op">-</span><span class="va">self</span>.phase)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_xlabel(<span class="st">'Frequency (Hz)'</span>)</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_ylabel(<span class="st">'-Phase (degrees)'</span>)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_ylim(<span class="op">-</span><span class="dv">90</span>,<span class="dv">90</span>)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.grid()</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        BodePhasePlot.set_yticks(np.linspace(<span class="op">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">13</span>))</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plotAll(<span class="va">self</span>):</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.plotNyquist()</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.plotBode()</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_dataframe(<span class="va">self</span>):</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        cols <span class="op">=</span> [<span class="st">'Frequency (Hz)'</span>, <span class="st">'Z (Ohms)'</span>, <span class="st">'Zreal'</span>, <span class="st">'Zimag'</span>, <span class="st">'Radius (Ohms)'</span>, <span class="st">'Magnitude (dB)'</span>, <span class="st">'Phase (degrees)'</span>]</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>cols)</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Frequency (Hz)'</span>] <span class="op">=</span> <span class="va">self</span>.Frequencies</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Z (Ohms)'</span>] <span class="op">=</span> <span class="va">self</span>.Z</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Zreal'</span>] <span class="op">=</span> np.real(<span class="va">self</span>.Z)</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Zimag'</span>] <span class="op">=</span> np.imag(<span class="va">self</span>.Z)</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Radius (Ohms)'</span>] <span class="op">=</span> np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Magnitude (dB)'</span>] <span class="op">=</span> np.log10(np.sqrt(np.real(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.imag(<span class="va">self</span>.Z)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">'Phase (degrees)'</span>] <span class="op">=</span> np.arctan2(np.imag(<span class="va">self</span>.Z), np.real(<span class="va">self</span>.Z))<span class="op">*</span><span class="dv">180</span><span class="op">/</span>np.pi</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df <span class="op">=</span> df</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To demonstrate how this works, let’s set up an equivalent circuit containing 4 elements: * A resistor with a resistance of 40 ohms * A Resistor-Capacitor element with a resistor of 90 ohms and capacitance of 500 μF * A second Resistor-Capacitor element with a resistor of 200 ohms and capacitance of 30 μF * A warburg element with a value of 1</p>
-<div id="cell-13" class="cell" data-execution_count="5">
+<p>To demonstrate how this works, let’s set up an equivalent circuit containing 4 elements: * A resistor with a resistance of 40 ohms * A Resistor-Capacitor element with a resistor of 90 ohms and capacitance of 5000 μF * A Randles element with a resistor of 200 ohms, capacitance of 30 μF, and Warburg term of 1</p>
+<div id="cell-15" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>someR <span class="op">=</span> Resistor(<span class="dv">40</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>someRC1 <span class="op">=</span> RC(<span class="dv">90</span>,<span class="fl">.005</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>someRandles <span class="op">=</span> Randles(<span class="dv">200</span>, <span class="fl">.00003</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-14" class="cell" data-execution_count="6">
+<div id="cell-16" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>someEquivalentCircuit <span class="op">=</span> EquivalentCircuit()</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>someEquivalentCircuit.setImpulseFrequencies(myFrequencies)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>someEquivalentCircuit.addSeriesElement(someR, someRC1, someRandles)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Plots for the Nyquist and Bode digrams:</p>
-<div id="cell-16" class="cell" data-execution_count="7">
+<div id="cell-18" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>someEquivalentCircuit.plotAll()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -557,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Returning the equivalent circuit values as a pandas dataframe:</p>
-<div id="cell-18" class="cell" data-execution_count="8">
+<div id="cell-20" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>myShinyNewDataframe <span class="op">=</span> someEquivalentCircuit.to_dataframe()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>display(myShinyNewDataframe)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -698,14 +747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="additional-resources" class="level3">
 <h3 class="anchored" data-anchor-id="additional-resources">Additional Resources</h3>
 <ul>
-<li><a href="https://www.gamry.com/application-notes/EIS/basics-of-electrochemical-impedance-spectroscopy/">Gamry Basics of Electrochemical Impedance Spectroscopy</a>
-<ul>
-<li>Put together by JMP, it uses their proprietary software, though in principle everything could be done with Excel, Python, an an abacus. If someone from JMP does read this and wants to get me a free or deeply discounted license for personal use, my contact info is at the top of this page.</li>
-</ul></li>
-<li><a href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr">Crash Course Statistics</a>
-<ul>
-<li>45 10-12 minute video series covering basic statistics to machine learning</li>
-</ul></li>
+<li><a href="https://www.gamry.com/application-notes/EIS/basics-of-electrochemical-impedance-spectroscopy/">Gamry Basics of Electrochemical Impedance Spectroscopy</a></li>
 </ul>
 
 

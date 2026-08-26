@@ -39,8 +39,8 @@ website:
       - text: Design of Experiments
         href: posts/DesignOfExperiments.ipynb
 
-      - text: Electrochemical Impedance Spectroscopy
-        href: posts/ElectrochemicalImpedanceSpectroscopy.ipynb
+      # - text: Electrochemical Impedance Spectroscopy
+      #   href: posts/ElectrochemicalImpedanceSpectroscopy.ipynb
 
       # - text: Thermodynamic Equations of State
       #   href: posts/ThermodynamicEquationsOfState.ipynb

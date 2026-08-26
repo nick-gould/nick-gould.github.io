@@ -51,9 +51,9 @@ Many of the pages include interactive simulations and notebooks built with [Quar
 Design of Experiments (DoE) is a collection of methods that intends to use statistics to systematically vary possible causes that affect a given output to better understand, control, and optimize the system being investigated. A well designed DoE can often turn months worth of work into a couple of days.
 
 
-### [Electrochemical Impedance Spectroscopy](posts/ElectrochemicalImpedanceSpectroscopy.html)
+<!-- ### [Electrochemical Impedance Spectroscopy](posts/ElectrochemicalImpedanceSpectroscopy.html)
 
-Electrochemical Impedance Spectroscopy (EIS) is a technique for probing the inner-workings of an electrical circuit, which can yield useful insights to improve battery technology. The concepts behind the technique can also be leveraged to do almost the same thing as the full analysis with a faster turnaround through careful testing design.
+Electrochemical Impedance Spectroscopy (EIS) is a technique for probing the inner-workings of an electrical circuit, which can yield useful insights to improve battery technology. The concepts behind the technique can also be leveraged to do almost the same thing as the full analysis with a faster turnaround through careful testing design. -->
 
 <!-- ### Thermodynamic Equations of State
 
