@@ -186,12 +186,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../posts/ElectrochemicalImpedanceSpectroscopy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Electrochemical Impedance Spectroscopy</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="https://nick-gould.github.io/Lorenz-Simulator/" class="sidebar-item-text sidebar-link" target="blank">
  <span class="menu-text">Lorenz Attractor Simulator</span></a>
   </div>
@@ -1041,7 +1035,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/nick-gould\.github\.io\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
